@@ -4,12 +4,30 @@
 ![Python Language](https://img.shields.io/badge/Python-blue?logo=python&label=Language&link=https%3A%2F%2Fwww.python.org%2F)
 ![Static Badge](https://img.shields.io/badge/0%25-red?logo=coverage&label=Coverage)
 
-One Paragraph of project description goes here
+**Kidang Tikus** is a top-down camera multiplayer shooter game with destructive environment made using Python and PyGame.
+
+## Progress[^1]
+
+- [x] Project setup
+- [x] Git setup
+- [ ] Game basics
+- [ ] Local multiplayer (LAN)
+- [ ] Game loop
+- [ ] Online multiplayer
+- [ ] SFX / GFX
+- [ ] Destroyable environment
+- [ ] Power ups
+- [ ] Map editor
+- [ ] CI/CD
+- [ ] [Itchio](https://itch.io) release
+
+[^1]: See [this document](https://docs.google.com/spreadsheets/d/1-ErHJ3pJcBHkAS5O7UOqdDYWsXO2FvVZF2UIVxLdnuw/edit?usp=sharing) for details.
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+<details><summary>PROJECT WORK IN PROGRESS - template below</summary>
 ### Prerequisites
 
 What things you need to install the software and how to install them
@@ -41,41 +59,37 @@ env/Scripts/activate
 source env/bin/activate
 ```
 
-#### 3. Install dependency:
+#### 3. Install dependencies:
 
 ```
 pip install -r requirements.txt
 ```
+</details>
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+Just run the game and give it a play!
 
-### Break down into end to end tests
-
+We have a Quality Assurance team which checks mainly the following things:
 * Game mechanics tests
 * Performance tests
 * Verifying software application
 
-### And coding style tests
+## Development
 
-Explain what these tests test and why
-
-```
-Give an example
-```
+Please use the [Google's Python styleguide](https://google.github.io/styleguide/pyguide.html).
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Server application is yet to be made. Deployment instructions are not yet available.
 
 ## Built With
 
--   [Pygame](https://pyga.me) - Free and Open Source python programming language library for making multimedia applications like games.
+- [Pygame](https://pyga.me) - Free and Open Source python programming language library for making multimedia applications such as video games.
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please follow this [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
@@ -92,10 +106,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the WTFPL License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the WTFPL License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
 -   Hat tip to anyone whose code was used
 -   Inspiration
--   etc
