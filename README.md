@@ -4,7 +4,7 @@
 ![Python Language](https://img.shields.io/badge/Python-blue?logo=python&label=Language&link=https%3A%2F%2Fwww.python.org%2F)
 ![Static Badge](https://img.shields.io/badge/0%25-red?logo=coverage&label=Coverage)
 
-**Kidang Tikus** is a top-down camera multiplayer shooter game with destructive environment made using Python and PyGame.
+**Kidang Tikus** is a 2D, top-down camera multiplayer shooter game with destructive environment made using Python and PyGame.
 
 ## Progress[^1]
 
@@ -22,6 +22,10 @@
 - [ ] [Itchio](https://itch.io) release
 
 [^1]: See [this document](https://docs.google.com/spreadsheets/d/1-ErHJ3pJcBHkAS5O7UOqdDYWsXO2FvVZF2UIVxLdnuw/edit?usp=sharing) for details.
+
+## Project description
+
+For detiled information see [this](https://docs.google.com/document/d/1E0U_dm93fonUSwPmSpySaFJsoYhLiKY9cUN1aybzOAw/edit)
 
 ## Getting Started
 
