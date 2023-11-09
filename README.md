@@ -1,5 +1,9 @@
 # Kidang tikus
 
+![Engine PyGame](https://img.shields.io/badge/PyGame-blue?label=Engine&link=https%3A%2F%2Fwww.pygame.org%2F)
+![Python Language](https://img.shields.io/badge/Python-blue?logo=python&label=Language&link=https%3A%2F%2Fwww.python.org%2F)
+![Static Badge](https://img.shields.io/badge/0%25-red?logo=coverage&label=Coverage)
+
 One Paragraph of project description goes here
 
 ## Getting Started
