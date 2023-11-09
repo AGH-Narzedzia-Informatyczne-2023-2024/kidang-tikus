@@ -16,21 +16,31 @@ Give examples
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+#### 1. Create python venv:
 
 ```
-Give the example
+python3 -m venv env
 ```
 
-And repeat
+#### 2. And activate it.
+
+-   Windows:
 
 ```
-until finished
+env/Scripts/activate
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+-   Linux:
+
+```
+source env/bin/activate
+```
+
+#### 3. Install dependency:
+
+```
+pip install -r requirements.txt
+```
 
 ## Running the tests
 
@@ -58,7 +68,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-- [Pygame](https://pyga.me) - Free and Open Source python programming language library for making multimedia applications like games.
+-   [Pygame](https://pyga.me) - Free and Open Source python programming language library for making multimedia applications like games.
 
 ## Contributing
 
@@ -70,19 +80,19 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-Andre Baron
-Jan Banasik
-Kacper Dłubała
-Kamil Pustelnik
-Mateusz Mrowiec
-Paweł Adamczyk
+-   Andre Baron
+-   Jan Banasik
+-   Kacper Dłubała
+-   Kamil Pustelnik
+-   Mateusz Mrowiec
+-   Paweł Adamczyk
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the WTFPL License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
+-   Hat tip to anyone whose code was used
+-   Inspiration
+-   etc
