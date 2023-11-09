@@ -1,6 +1,7 @@
 import socket	
 import threading	
 import pickle
+import os
 
 def pack(data):
 	return pickle.dumps(data)
@@ -34,7 +35,7 @@ def handle_client(c): # Obsługa klienta asynchronicznie w wątku
 
 # Stworzenie socketa
 s = socket.socket()
-port = 12345
+port = os.environ['PORT'] or 3100
 s.bind(('0.0.0.0', port))		
 print ("Socket bound to port %s" %(port))
 
@@ -45,3 +46,4 @@ while True:
 	print ('Incoming connection from', addr)
 	t1 = threading.Thread(target = handle_client, args=(c, ))
 	t1.start()
+	
