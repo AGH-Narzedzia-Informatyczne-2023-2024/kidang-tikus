@@ -13,7 +13,7 @@ def sieve(n):
     return result
 
 if __name__ == "__main__":
-    n = int(input("Podaj n: "))
-    print(f"Liczby pierwsze do n: ")
+    n = int(input("Podaj liczbę całkowitą n: "))
+    print(f"Liczby pierwsze do górnej granicy n: ")
     result = sieve(n)
     print(*result)
