@@ -10,7 +10,7 @@ for i in range(ilosc_liczb):
 
 # Obliczanie średniej
 if ilosc_liczb > 0:
-    srednia = sum(liczby) / ilosc_liczb
+    srednia = round(sum(liczby) / ilosc_liczb, 3)
     print(f"Średnia z podanych liczb wynosi: {srednia}")
 else:
     print("Nie podano żadnych liczb, nie można obliczyć średniej.")
