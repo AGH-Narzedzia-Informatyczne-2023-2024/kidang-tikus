@@ -1,8 +1,12 @@
-deg = 123
+class Math:
+    def suma(a, b):
+        return a + b
 
-print("Program do sumowania")
+    def roznica(a,b):
+        return a - b
 
-def suma(a, b):
-    return a + b
-
-print("Suma to %d" % suma(deg, 5))
+if __name__ == "__main__":
+    print("Program do sumowania")
+    deg = 123
+    math = Math()
+    print("Suma to %d" % math.suma(deg, 5))
