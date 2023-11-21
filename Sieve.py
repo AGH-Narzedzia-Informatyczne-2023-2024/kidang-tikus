@@ -20,6 +20,8 @@ if __name__ == "__main__":
     n = int(input("Podaj liczbę całkowitą n: "))
     # I think that we should also check the type of n before calling the function "sieve"
     # Yup that sound good! :D
+    #print("Some cool stuff is done here")
+    #print("And also here! :D")And here
     print(f"Liczby pierwsze do górnej granicy n: ")
     result = sieve(n)
     print(*result)
