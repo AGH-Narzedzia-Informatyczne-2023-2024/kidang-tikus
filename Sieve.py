@@ -12,7 +12,11 @@ def sieve(n):
     result = [x for x in range(len(sieve)) if sieve[x]]
     return result
 
+def square_root(n):
+    return n**(0.5)
 if __name__ == "__main__":
+    print(square_root(4))
+    # but maybe we should also calculate the negative and imaginary roots if n is less than zero?
     n = int(input("Podaj liczbę całkowitą n: "))
     print(f"Liczby pierwsze do górnej granicy n: ")
     result = sieve(n)
