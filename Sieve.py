@@ -19,6 +19,7 @@ if __name__ == "__main__":
     # but maybe we should also calculate the negative and imaginary roots if n is less than zero?
     n = int(input("Podaj liczbę całkowitą n: "))
     # I think that we should also check the type of n before calling the function "sieve"
+    # Yup that sound good! :D
     print(f"Liczby pierwsze do górnej granicy n: ")
     result = sieve(n)
     print(*result)
