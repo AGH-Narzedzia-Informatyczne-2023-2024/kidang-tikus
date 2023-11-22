@@ -19,6 +19,6 @@ def oblicz_srednia(ilosc_liczb):
 ilosc_liczb = int(input("Podaj ilość liczb: "))
 
 # Wywołanie funkcji i wyświetlenie wyniku
-wynik = oblicz_srednia(ilosc_liczb) 
-if wynik is not None:
-    print(f"Średnia z podanych liczb wynosi: {wynik}")
+wynik1 = oblicz_srednia(ilosc_liczb) 
+if wynik1 is not None:
+    print(f"Średnia z podanych liczb wynosi: {wynik1}") #komentarz
