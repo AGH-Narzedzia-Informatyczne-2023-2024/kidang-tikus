@@ -1,15 +1,15 @@
 def oblicz_srednia(ilosc_liczb):
     # Inicjalizacja pustej tablicy na liczby
-    liczby = []
+    elementy = []                #zmiana nazwy tablicy
 
     # Pętla for do wczytywania liczb
     for i in range(ilosc_liczb):
         liczba = float(input(f"Podaj liczbę {i + 1}: "))
-        liczby.append(liczba)
+        elementy.append(liczba)
 
     # Obliczanie średniej
     if ilosc_liczb > 0:
-        srednia = round(sum(liczby) / ilosc_liczb, 3)
+        srednia = round(sum(elementy) / ilosc_liczb, 3)
         return srednia
     else:
         print("Nie podano żadnych liczb, nie można obliczyć średniej.")
