@@ -3,7 +3,10 @@ class State():
     self.game = game
     self.utils = game.utils
 
-  def handle_events(self, event):
+  def cleanup(self):
+    pass
+
+  def handle_event(self, event):
     pass
 
   def update(self):

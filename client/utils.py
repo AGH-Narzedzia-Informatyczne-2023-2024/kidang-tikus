@@ -9,9 +9,9 @@ class Utils():
       "Arial30": pygame.font.SysFont("Arial", 30)
     }
   
-  def draw_text_mt(self, text, color, font, surface, position):
+  def draw_text(self, text, color, font, surface, position, positionProp="midtop"):
     textSurface = self.fonts[font].render(text, True, color)
     textRect = textSurface.get_rect()
-    textRect.midtop = position
+    setattr(textRect, positionProp, position)
     surface.blit(textSurface, textRect)
     return textSurface, textRect

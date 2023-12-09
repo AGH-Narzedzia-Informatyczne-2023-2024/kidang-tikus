@@ -31,6 +31,18 @@ class Surfaces():
 
     return surfaceData
   
+  def remove_surface(self, surfaceData):
+    self.surfaces.remove(surfaceData)
+  
+  def get_interactive_surface(self, pos):
+    for i in range(len(self.surfaces) - 1, -1, -1):
+      surfaceData = self.surfaces[i]
+      if (surfaceData.pos[0] <= pos[0] and # X
+        pos[0] <= surfaceData.pos[0] + surfaceData.size[0] and
+        surfaceData.pos[1] <= pos[1] and # Y
+        pos[1] <= surfaceData.pos[1] + surfaceData.size[1]):
+        return surfaceData
+  
   def render_surfaces(self):
     for surfaceData in self.surfaces: # Render in the zindex order
       self.game.main_canvas.blit(surfaceData.surface, surfaceData.pos)
