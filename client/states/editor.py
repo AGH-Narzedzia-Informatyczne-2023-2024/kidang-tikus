@@ -1,6 +1,7 @@
 import pygame
 from state import State
 from tiles import TileDict, TileList
+from states.prompt import PromptState
 from states.level import Level, LevelYOffset
 from components.TextInput import TextInput
 
@@ -48,10 +49,17 @@ class EditorState(State):
 
     self.level = Level(game)
     self.nameInput = TextInput(game, (150, 50), maxchars=9)
+
+    self.exitPrompt = None
   
   def cleanup(self):
     self.game.surfaces.remove_surface(self.editorSurfaceData)
   
+  def handle_exit(self, result):
+    self.exitPrompt = None
+    if result:
+      self.game.close_state(self)
+
   def handle_event(self, event):
     self.nameInput.handle_event(event)
     if event.type == pygame.MOUSEMOTION:
@@ -73,7 +81,9 @@ class EditorState(State):
           self.tileSelector.set_tile(None)
         # Exit editor
         elif hasattr(self, 'exitTextRect') and self.exitTextRect.collidepoint(event.pos):
-          self.game.close_state(self)
+          if self.exitPrompt == None:
+            self.exitPrompt = PromptState(self.game, "Are you sure you exit?", callback=self.handle_exit)
+            self.game.open_state(self.exitPrompt)
         # Select name text input
         elif hasattr(self, 'nameInputRect') and self.nameInputRect.collidepoint(event.pos):
           self.nameInput.set_active(True)
