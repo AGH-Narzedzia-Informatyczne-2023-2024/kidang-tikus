@@ -84,6 +84,7 @@ class TilesManager():
           (pos, tileName) = tile.split(":")
           (x, y) = pos.split(",")
           self.change(int(x), int(y), tileName)
+        return True
     except IOError as e:
       print("Load failed: ", e)
       return False

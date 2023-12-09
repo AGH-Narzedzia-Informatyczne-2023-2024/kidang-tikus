@@ -51,6 +51,8 @@ class EditorState(State):
     self.nameInput = TextInput(game, (150, 50), maxchars=9)
 
     self.exitPrompt = None
+
+    self.loadsaveMsg = None
   
   def cleanup(self):
     self.game.surfaces.remove_surface(self.editorSurfaceData)
@@ -69,6 +71,7 @@ class EditorState(State):
         self.currentTilePos = (event.pos[0] // 50, event.pos[1] // 50)
     elif event.type == pygame.MOUSEBUTTONDOWN:
       self.nameInput.set_active(False) # Drop focus
+      self.loadsaveMsg = None # Defer clearing?
 
       if event.button == 1 and self.game.surfaces.get_interactive_surface(event.pos) == self.editorSurfaceData: # Mouse press
         # Switch tiles left / right
@@ -89,9 +92,11 @@ class EditorState(State):
           self.nameInput.set_active(True)
         # Load / Save
         elif hasattr(self, 'saveTextRect') and self.saveTextRect.collidepoint(event.pos):
-          self.level.tilesManager.save(self.nameInput.get_value())
+          result = self.level.tilesManager.save(self.nameInput.get_value())
+          self.loadsaveMsg = "Saved" if result else "Save fail"
         elif hasattr(self, 'loadTextRect') and self.loadTextRect.collidepoint(event.pos):
-          self.level.tilesManager.load(self.nameInput.get_value())
+          result = self.level.tilesManager.load(self.nameInput.get_value())
+          self.loadsaveMsg = "Loaded" if result else "Load fail"
         # Place tile
         elif self.currentTilePos != None: # Tile placement
             self.level.tilesManager.change(self.currentTilePos[0], self.currentTilePos[1], self.tileSelector.tileName)
@@ -123,6 +128,9 @@ class EditorState(State):
     
     self.saveText, self.saveTextRect = self.utils.draw_text("Save", (255, 255, 255), "Arial30", self.editorSurface, (650, self.controlsOffset + 30), positionProp='topleft')
     self.loadText, self.loadTextRect = self.utils.draw_text("Load", (255, 255, 255), "Arial30", self.editorSurface, (720, self.controlsOffset + 30), positionProp='topleft')
+
+    if self.loadsaveMsg != None:
+      self.utils.draw_text(self.loadsaveMsg, (255, 255, 255), "Arial30", self.editorSurface, (680, self.controlsOffset + 60), positionProp='topleft')
     
     self.nameInput.update()
     self.nameInputRect = self.editorSurface.blit(self.nameInput.surface, (475, self.controlsOffset + 25))
