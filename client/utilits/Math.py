@@ -37,3 +37,13 @@ class Math:
     @staticmethod
     def vector_distance(vector1, vector2):
         return Math.vector_length(Math.subtract_vectors(vector1, vector2))
+
+    @staticmethod
+    def sign(number):
+        if number == 0:
+            return 0
+        return 1 if number > 0 else -1
+
+    @staticmethod
+    def vector_sign(vector):
+        return [Math.sign(vector[0]), Math.sign(vector[1])]

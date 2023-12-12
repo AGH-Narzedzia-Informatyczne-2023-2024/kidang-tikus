@@ -1,5 +1,3 @@
-import math
-
 import pygame
 
 from objects.weapons.MachineGun import MachineGun
@@ -35,48 +33,38 @@ class Player(pygame.sprite.Sprite):
     def move(self, screen_size, delta_time, walls):
         self.movementVector = Math.normalize_vector(self.movementVector)
 
-        movementDirection = [math.fabs(self.movementVector[0]), math.fabs(self.movementVector[1])]
+        movementDirection = Math.vector_sign(self.movementVector)
 
-        for steps in range(max(self.movementVector) * self.movementSpeed * delta_time):
+        # print(
+        #     max(math.fabs(self.movementVector[0]), math.fabs(self.movementVector[1])) * self.movementSpeed * delta_time)
+        for steps in range(3):
             for potentialNewChanges in [[1, 1], [1, 0], [0, 1]]:
+                newPos = [self.pos[0] + movementDirection[0] * potentialNewChanges[0],
+                          self.pos[1] + movementDirection[1] * potentialNewChanges[1]]
 
-            newPos = [self.pos[0] + movementDirection[0],
-                      self.pos[1] + movementDirection[1]]
+                if newPos[0] < 0 or newPos[0] > screen_size[0] - self.rect.width:
+                    continue
+                if newPos[1] < 0 or newPos[1] > screen_size[1] - self.rect.height:
+                    continue
+                newRect = pygame.Rect(newPos[0], newPos[1], self.rect.width, self.rect.height)
 
-            if newPos[0] < 0:
-                newPos[0] = 0
-            elif newPos[0] > screen_size[0] - self.rect.width:
-                newPos[0] = screen_size[0] - self.rect.width
+                canMove = True
+                for wall in walls:
+                    if wall.rect.colliderect(newRect):
+                        canMove = False
+                        continue
 
-            if newPos[1] < 0:
-                newPos[1] = 0
-            elif newPos[1] > screen_size[1] - self.rect.height:
-                newPos[1] = screen_size[1] - self.rect.width
+                if not canMove:
+                    continue
 
-        newRect = pygame.Rect(newPos[0], newPos[1], self.rect.width, self.rect.height)
+                self.pos = newPos
+                break
 
-        for wall in walls:
-            if not wall.rect.colliderect(self.rect):
-                continue
-            mid = [wall.pos[0] + wall.rect.width / 2, wall.pos[1] + wall.rect.height / 2]
-
-            if mid[0] <= newRect.top <= wall.rect.bottom:
-                newPos[1] = self.pos[1]  # wall.rect.bottom
-            elif wall.rect.top <= newRect.bottom <= mid[0]:
-                newPos[1] = self.pos[1]  # wall.rect.top - self.rect.height
-
-            if mid[1] >= newRect.right >= wall.rect.left:
-                newPos[0] = self.pos[0]  # wall.rect.left - self.rect.width
-            elif wall.rect.right >= newRect.left >= mid[1]:
-                newPos[0] = self.pos[0]  # wall.rect.right
-
-        self.pos[0] = newPos[0]
-        self.pos[1] = newPos[1]
         self.rect.topleft = self.pos
         self.movementVector = [0, 0]
 
         for proj in Player.projectiles:
-            proj.move(screen_size, delta_time)
+            proj.move(screen_size, delta_time, walls)
 
     def process_input(self, keys, mouse):
         if keys[pygame.K_w]:

@@ -19,6 +19,11 @@ class GameState(State):
             Wall([140, 100]),
             Wall([140, 120]),
             Wall([140, 140]),
+            Wall([180, 140]),
+            Wall([200, 240]),
+            Wall([240, 340]),
+            Wall([540, 440]),
+            Wall([440, 280]),
         ]
         self.player_group = pygame.sprite.GroupSingle(self.player)
 
