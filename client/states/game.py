@@ -1,6 +1,7 @@
 import pygame
 
 from objects.Player import Player
+from objects.Wall import Wall
 from state import State
 
 
@@ -12,6 +13,13 @@ class GameState(State):
         self.surface = self.surfaceData.surface
 
         self.player = Player(game.screen.get_size())
+        self.walls = [
+            Wall([100, 100]),
+            Wall([120, 100]),
+            Wall([140, 100]),
+            Wall([140, 120]),
+            Wall([140, 140]),
+        ]
         self.player_group = pygame.sprite.GroupSingle(self.player)
 
     def update(self):
@@ -22,6 +30,8 @@ class GameState(State):
 
         self.player.process_input(keys, mouse)
 
-        self.player.move(self.game.screen.get_size(), self.game.clock.get_time() / 1000)
+        self.player.move(self.game.screen.get_size(), self.game.clock.get_time() / 1000, self.walls)
 
         self.player_group.sprite.render(self.surface)
+        for wall in self.walls:
+            wall.render(self.surface)

@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from objects.weapons.MachineGun import MachineGun
@@ -30,25 +32,46 @@ class Player(pygame.sprite.Sprite):
                                  MachineGun()]
         self.equippedWeapon = self.availableWeapons[0]
 
-    def move(self, screen_size, delta_time):
+    def move(self, screen_size, delta_time, walls):
         self.movementVector = Math.normalize_vector(self.movementVector)
-        newPos = (self.pos[0] + self.movementVector[0] * self.movementSpeed * delta_time * self.movement_speed,
-                  self.pos[1] + self.movementVector[1] * self.movementSpeed * delta_time * self.movement_speed)
 
-        if newPos[0] < 0:
-            self.pos[0] = 0
-        elif newPos[0] > screen_size[0] - self.rect.width:
-            self.pos[0] = screen_size[0] - self.rect.width
-        else:
-            self.pos[0] = newPos[0]
+        movementDirection = [math.fabs(self.movementVector[0]), math.fabs(self.movementVector[1])]
 
-        if newPos[1] < 0:
-            self.pos[1] = 0
-        elif newPos[1] > screen_size[1] - self.rect.height:
-            self.pos[1] = screen_size[1] - self.rect.width
-        else:
-            self.pos[1] = newPos[1]
+        for steps in range(max(self.movementVector) * self.movementSpeed * delta_time):
+            for potentialNewChanges in [[1, 1], [1, 0], [0, 1]]:
 
+            newPos = [self.pos[0] + movementDirection[0],
+                      self.pos[1] + movementDirection[1]]
+
+            if newPos[0] < 0:
+                newPos[0] = 0
+            elif newPos[0] > screen_size[0] - self.rect.width:
+                newPos[0] = screen_size[0] - self.rect.width
+
+            if newPos[1] < 0:
+                newPos[1] = 0
+            elif newPos[1] > screen_size[1] - self.rect.height:
+                newPos[1] = screen_size[1] - self.rect.width
+
+        newRect = pygame.Rect(newPos[0], newPos[1], self.rect.width, self.rect.height)
+
+        for wall in walls:
+            if not wall.rect.colliderect(self.rect):
+                continue
+            mid = [wall.pos[0] + wall.rect.width / 2, wall.pos[1] + wall.rect.height / 2]
+
+            if mid[0] <= newRect.top <= wall.rect.bottom:
+                newPos[1] = self.pos[1]  # wall.rect.bottom
+            elif wall.rect.top <= newRect.bottom <= mid[0]:
+                newPos[1] = self.pos[1]  # wall.rect.top - self.rect.height
+
+            if mid[1] >= newRect.right >= wall.rect.left:
+                newPos[0] = self.pos[0]  # wall.rect.left - self.rect.width
+            elif wall.rect.right >= newRect.left >= mid[1]:
+                newPos[0] = self.pos[0]  # wall.rect.right
+
+        self.pos[0] = newPos[0]
+        self.pos[1] = newPos[1]
         self.rect.topleft = self.pos
         self.movementVector = [0, 0]
 

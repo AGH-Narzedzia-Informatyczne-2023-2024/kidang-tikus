@@ -21,7 +21,7 @@ class Math:
     @staticmethod
     def add_vectors(vector1, vector2):
         return vector1[0] + vector2[0], vector1[1] + vector2[1]
-    
+
     @staticmethod
     def subtract_vectors(vector1, vector2):
         return vector1[0] - vector2[0], vector1[1] - vector2[1]
