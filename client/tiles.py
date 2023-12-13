@@ -1,5 +1,4 @@
 import pygame
-
 from utilits.path import get_assets_path
 
 
@@ -15,17 +14,17 @@ class Tile:
         self.collidable = collidable
 
 
-BricksTile = Tile("tiles/bricks.png")
-DarkBricksTile = Tile("tiles/dark_bricks.png")
-DarkBricks2Tile = Tile("tiles/dark_bricks2.png")
-DiamondOreTile = Tile("tiles/diamond_ore.png")
-DirtyBricksTile = Tile("tiles/dirty_bricks.png")
+BricksTile = Tile("tiles/bricks.png", collidable=True)
+DarkBricksTile = Tile("tiles/dark_bricks.png", collidable=True)
+DarkBricks2Tile = Tile("tiles/dark_bricks2.png", collidable=True)
+DiamondOreTile = Tile("tiles/diamond_ore.png", collidable=True)
+DirtyBricksTile = Tile("tiles/dirty_bricks.png", collidable=True)
 GrassTile = Tile("tiles/grass.png")
 LavaTile = Tile("tiles/lava.png")
-LogTile = Tile("tiles/log.png")
-MessyBricksTile = Tile("tiles/messy_bricks.png")
+LogTile = Tile("tiles/log.png", collidable=True)
+MessyBricksTile = Tile("tiles/messy_bricks.png", collidable=True)
 SandTile = Tile("tiles/sand.png")
-StoneTile = Tile("tiles/stone.png")
+StoneTile = Tile("tiles/stone.png", collidable=True)
 WaterTile = Tile("tiles/water.png")
 
 TileDict = {

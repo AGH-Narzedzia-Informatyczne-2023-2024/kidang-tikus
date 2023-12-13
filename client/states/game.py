@@ -1,42 +1,45 @@
 import pygame
 
 from objects.Player import Player
-from objects.Wall import Wall
 from state import State
+from .level import Level
 
 
 class GameState(State):
-    def __init__(self, game):
+    def __init__(self, game, levelName):
         super().__init__(game)
 
-        self.surfaceData = game.surfaces.create_surface(zindex=2)
+        self.surfaceData = game.surfaces.create_surface(zindex=3)
         self.surface = self.surfaceData.surface
 
-        self.player = Player(game.screen.get_size())
-        self.walls = [
-            Wall([100, 100]),
-            Wall([120, 100]),
-            Wall([140, 100]),
-            Wall([140, 120]),
-            Wall([140, 140]),
-            Wall([180, 140]),
-            Wall([200, 240]),
-            Wall([240, 340]),
-            Wall([540, 440]),
-            Wall([440, 280]),
+        self.level = Level(game)
+        self.level.tilesManager.load(levelName)
+        self.levelSize = self.level.get_level_size()
+
+        self.players = [
+            Player(self.levelSize, [0,0]),
+            Player(self.levelSize, [self.levelSize[0] - 50, self.levelSize[1] - 50])
         ]
-        self.player_group = pygame.sprite.GroupSingle(self.player)
+        self.player_group = pygame.sprite.Group(*self.players)
 
     def update(self):
         self.surface.fill((0, 100, 100))
 
+        # Level
+        self.level.update()
+
+        # Players
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
 
-        self.player.process_input(keys, mouse)
+        for player in self.players:
+            player.process_input(keys, mouse) # Need to replace mouse with sth else
+            player.move(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
 
-        self.player.move(self.game.screen.get_size(), self.game.clock.get_time() / 1000, self.walls)
+        Player.move_projectiles(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
 
-        self.player_group.sprite.render(self.surface)
-        for wall in self.walls:
-            wall.render(self.surface)
+        for sprite in self.player_group.sprites():
+            sprite.render(self.level.surface)
+
+        # Blit the level with the player
+        self.surface.blit(self.level.surface, ((self.game.GAME_SIZE[0] - self.levelSize[0]) / 2, 0))

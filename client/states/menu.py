@@ -2,7 +2,7 @@ import pygame
 
 from state import State
 from .editor import EditorState
-from .game import GameState
+from .gameselectlevel import GameSelectLevelState
 
 
 class MenuState(State):
@@ -13,14 +13,14 @@ class MenuState(State):
         self.menuSurface = self.menuSurfaceData.surface
 
         self.utils.draw_text("Kidang Tikus", (255, 255, 255), "Arial40", self.menuSurface,
-                             (game.SCREEN_SIZE[0] / 2, 100))
+                             (game.GAME_SIZE[0] / 2, 100))
         self.playText, self.playTextRect = self.utils.draw_text("Play", (255, 255, 255), "Arial30", self.menuSurface,
-                                                                (game.SCREEN_SIZE[0] / 2, 170))
+                                                                (game.GAME_SIZE[0] / 2, 170))
         self.editorText, self.editorTextRect = self.utils.draw_text("Editor", (255, 255, 255), "Arial30",
-                                                                    self.menuSurface, (game.SCREEN_SIZE[0] / 2, 210))
-        # self.utils.draw_text("Options", (255, 255, 255), "Arial30", self.menuSurface, (game.SCREEN_SIZE[0] / 2, 200))
+                                                                    self.menuSurface, (game.GAME_SIZE[0] / 2, 210))
+        # self.utils.draw_text("Options", (255, 255, 255), "Arial30", self.menuSurface, (game.GAME_SIZE[0] / 2, 200))
         self.exitText, self.exitTextRect = self.utils.draw_text("Exit", (255, 255, 255), "Arial30", self.menuSurface,
-                                                                (game.SCREEN_SIZE[0] / 2, 250))
+                                                                (game.GAME_SIZE[0] / 2, 250))
 
     def cleanup(self):
         self.game.surfaces.remove_surface(self.menuSurfaceData)
@@ -30,7 +30,7 @@ class MenuState(State):
             if event.button == 1 and self.game.surfaces.get_interactive_surface(
                 event.pos) == self.menuSurfaceData:  # Mouse press
                 if self.playTextRect.collidepoint(event.pos):
-                    self.game.open_state(GameState(self.game))
+                    self.game.open_state(GameSelectLevelState(self.game))
                     self.game.close_state(self)
                 if self.editorTextRect.collidepoint(event.pos):
                     self.game.open_state(EditorState(self.game))
