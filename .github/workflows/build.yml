@@ -26,16 +26,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: Cd to client
-        run: cd client
-
       - uses: actions/setup-python@v4
         with:
           python-version: "3.10"
           cache: "pip" # caching pip dependencies
 
       - run: |
-          ls
+          cd client
           pip install -r requirements.txt
 
       - name: Build client
