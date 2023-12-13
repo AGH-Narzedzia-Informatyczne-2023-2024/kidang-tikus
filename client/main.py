@@ -1,6 +1,8 @@
 import pygame
+
 from states.menu import MenuState
 from surfaces import Surfaces
+from utilits.path import get_icon_path
 from utils import Utils
 
 
@@ -13,6 +15,8 @@ class Game:
         self.GAME_SIZE = (1200, 700)
 
         self.main_canvas = pygame.Surface(self.GAME_SIZE)
+        icon = pygame.image.load(get_icon_path())
+        pygame.display.set_icon(icon)
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE, pygame.RESIZABLE)
         pygame.display.set_caption("Kidang Tikus")
 
@@ -49,7 +53,8 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
 
-            if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP, pygame.MOUSEMOTION]: # Fix mouse position (if the screen is resized)
+            if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP,
+                              pygame.MOUSEMOTION]:  # Fix mouse position (if the screen is resized)
                 event.pos = (event.pos[0] * self.GAME_SIZE[0] / self.SCREEN_SIZE[0],
                              event.pos[1] * self.GAME_SIZE[1] / self.SCREEN_SIZE[1])
 
