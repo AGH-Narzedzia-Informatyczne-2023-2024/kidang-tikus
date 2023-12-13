@@ -2,7 +2,6 @@ import math
 
 
 class Math:
-
     @staticmethod
     def normalize_vector(vector):
         if vector == [0, 0]:

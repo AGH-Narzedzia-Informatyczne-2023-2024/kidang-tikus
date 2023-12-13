@@ -2,15 +2,15 @@ import pygame
 import os
 
 class Tile():
-  def __init__(self, path, speed_multiplier=1, collidable=False):
-    self.surf = pygame.Surface((50, 50), pygame.SRCALPHA, 32)
-    self.rect = self.surf.get_rect()
+    def __init__(self, path, speed_multiplier=1, collidable=False):
+        self.surf = pygame.Surface((50, 50), pygame.SRCALPHA, 32)
+        self.rect = self.surf.get_rect()
 
-    self.img = pygame.image.load(os.path.join("client/assets", path))
-    self.surf.blit(pygame.transform.scale(self.img, (50, 50)), self.rect)
+        self.img = pygame.image.load(os.path.join("client/assets", path))
+        self.surf.blit(pygame.transform.scale(self.img, (50, 50)), self.rect)
 
-    self.speed_multiplier = speed_multiplier
-    self.collidable = collidable
+        self.speed_multiplier = speed_multiplier
+        self.collidable = collidable
 
 BricksTile = Tile("tiles/bricks.png", collidable=True)
 DarkBricksTile = Tile("tiles/dark_bricks.png", collidable=True)
@@ -26,21 +26,21 @@ StoneTile = Tile("tiles/stone.png", collidable=True)
 WaterTile = Tile("tiles/water.png")
 
 TileDict = {
-  "Bricks": BricksTile,
-  "DarkBricks": DarkBricksTile,
-  "DarkBricks2": DarkBricks2Tile,
-  "DiamondOre": DiamondOreTile,
-  "DirtyBricks": DirtyBricksTile,
-  "Grass": GrassTile,
-  "Lava": LavaTile,
-  "Log": LogTile,
-  "MessyBricks": MessyBricksTile,
-  "Sand": SandTile,
-  "Stone": StoneTile,
-  "Water": WaterTile,
+    "Bricks": BricksTile,
+    "DarkBricks": DarkBricksTile,
+    "DarkBricks2": DarkBricks2Tile,
+    "DiamondOre": DiamondOreTile,
+    "DirtyBricks": DirtyBricksTile,
+    "Grass": GrassTile,
+    "Lava": LavaTile,
+    "Log": LogTile,
+    "MessyBricks": MessyBricksTile,
+    "Sand": SandTile,
+    "Stone": StoneTile,
+    "Water": WaterTile,
 }
 
 # TODO: Custom order of the tiles?
 TileList = []
 for (key, value) in TileDict.items():
-  TileList.append((key, value))
+    TileList.append((key, value))

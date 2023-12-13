@@ -4,7 +4,6 @@ from states.menu import MenuState
 from surfaces import Surfaces
 from utils import Utils
 
-
 class Game():
     def __init__(self):
         pygame.init()
