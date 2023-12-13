@@ -48,15 +48,15 @@ class EditorState(State):
     self.controlsOffset = self.game.GAME_SIZE[1] - LevelYOffset
 
     self.level = Level(game)
-    self.nameInput = TextInput(game, (150, 50), maxchars=9)
+    self.nameInput = TextInput(game, (300, 50), maxchars=18)
 
     self.exitPrompt = None
 
     self.loadsaveMsg = None
-  
+
   def cleanup(self):
     self.game.surfaces.remove_surface(self.editorSurfaceData)
-  
+
   def handle_exit(self, result):
     self.exitPrompt = None
     if result:
@@ -117,7 +117,7 @@ class EditorState(State):
     # Cursor
     if self.currentTilePos != None:
       self.editorSurface.blit(self.tileSelector.surf, (self.currentTilePos[0] * 50, self.currentTilePos[1] * 50))
-      
+
     # Controls
     self.exitText, self.exitTextRect = self.utils.draw_text("Exit", (255, 255, 255), "Arial30", self.editorSurface, (25, self.game.GAME_SIZE[1] - 25), positionProp='bottomleft')
     self.deleteText, self.deleteTextRect = self.utils.draw_text("Delete", (255, 255, 255), "Arial30", self.editorSurface, (200, self.game.GAME_SIZE[1] - 25), positionProp='bottomleft')
@@ -125,13 +125,13 @@ class EditorState(State):
       self.leftText, self.leftTextRect = self.utils.draw_text("<", (255, 255, 255), "Arial30", self.editorSurface, (50, self.controlsOffset + 50), positionProp='midright')
     if self.tileSelectIndex < len(TileList) - SelectTilesShown:
       self.rightText, self.rightTextRect = self.utils.draw_text(">", (255, 255, 255), "Arial30", self.editorSurface, (60 + SelectTilesShown * 60, self.controlsOffset + 50), positionProp='midleft')
-    
-    self.saveText, self.saveTextRect = self.utils.draw_text("Save", (255, 255, 255), "Arial30", self.editorSurface, (650, self.controlsOffset + 30), positionProp='topleft')
-    self.loadText, self.loadTextRect = self.utils.draw_text("Load", (255, 255, 255), "Arial30", self.editorSurface, (720, self.controlsOffset + 30), positionProp='topleft')
+
+    self.saveText, self.saveTextRect = self.utils.draw_text("Save", (255, 255, 255), "Arial30", self.editorSurface, (800, self.controlsOffset + 30), positionProp='topleft')
+    self.loadText, self.loadTextRect = self.utils.draw_text("Load", (255, 255, 255), "Arial30", self.editorSurface, (870, self.controlsOffset + 30), positionProp='topleft')
 
     if self.loadsaveMsg != None:
-      self.utils.draw_text(self.loadsaveMsg, (255, 255, 255), "Arial30", self.editorSurface, (680, self.controlsOffset + 60), positionProp='topleft')
-    
+      self.utils.draw_text(self.loadsaveMsg, (255, 255, 255), "Arial30", self.editorSurface, (730, self.game.GAME_SIZE[1] - 25), positionProp='bottomleft')
+
     self.nameInput.update()
     self.nameInputRect = self.editorSurface.blit(self.nameInput.surface, (475, self.controlsOffset + 25))
 
