@@ -1,6 +1,7 @@
 import pygame
 from state import State
 
+
 class PromptState(State):
     def __init__(self, game, prompt, callback=None):
         super().__init__(game)

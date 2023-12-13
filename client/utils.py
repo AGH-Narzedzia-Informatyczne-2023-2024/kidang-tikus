@@ -1,6 +1,7 @@
 import pygame
 
-class Utils():
+
+class Utils:
     def __init__(self, game):
         self.game = game
 

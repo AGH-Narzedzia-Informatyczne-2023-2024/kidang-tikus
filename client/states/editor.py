@@ -1,11 +1,12 @@
 import pygame
-from state import State
-from tiles import TileDict, TileList
-from states.prompt import PromptState
-from states.level import Level, LevelYOffset
 from components.TextInput import TextInput
+from state import State
+from states.level import Level, LevelYOffset
+from states.prompt import PromptState
+from tiles import TileDict, TileList
 
 SelectTilesShown = 5
+
 
 class Selector(pygame.sprite.Sprite):
     def __init__(self):

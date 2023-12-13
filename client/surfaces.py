@@ -1,5 +1,6 @@
 import pygame
 
+
 class SurfaceData():
     def __init__(self, size, zindex):
         self.surface = pygame.Surface(size)

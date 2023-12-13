@@ -1,13 +1,14 @@
-import pygame
 import re
-import os
 
+import pygame
 from tiles import TileDict
+from utilits.path import get_save_path
 
 LevelYOffset = 150
 Extension = ".kiti"
 
-class TileData():
+
+class TileData:
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -19,7 +20,7 @@ class TileData():
     def set_tile(self, tileName):
         self.tileName = tileName
 
-class TilesManager():
+class TilesManager:
     def __init__(self):
         self.tiles = []
 
@@ -89,11 +90,44 @@ class TilesManager():
         except IOError as e:
             print("Load failed: ", e)
             return False
+    def save(self, name):
+        if not self.validateName(name):
+            return False
+
+        try:
+            with open(get_save_path(name + ".kiti"), "w") as file:
+                file.write("1\n")  # Version (placeholder)
+                for tile in self.tiles:
+                    file.write(str(tile.x) + "," + str(tile.y) + ":" + tile.tileName + ";")
+            return True
+        except IOError as e:
+            print("Save failed: ", e)
+        return False
+
+    def load(self, name):
+        if not self.validateName(name):
+            return False
+
+        try:
+            with open(get_save_path(name + ".kiti"), "r") as file:
+                (version, tiles) = file.read().split("\n")
+                tiles = tiles.split(";")
+                self.clear()
+                for tile in tiles:
+                    if len(tile) == 0:
+                        continue
+                    (pos, tileName) = tile.split(":")
+                    (x, y) = pos.split(",")
+                    self.change(int(x), int(y), tileName)
+                return True
+        except IOError as e:
+            print("Load failed: ", e)
+            return False
 
     @staticmethod
     def getSaveList():
         saves = []
-        for file in os.listdir("client/saves"):
+        for file in os.listdir(get_save_path("")):
             if file.endswith(Extension):
                 saves.append(file[:-len(Extension)])
         return saves
