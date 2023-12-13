@@ -1,4 +1,5 @@
 import pygame
+
 from state import State
 
 
@@ -20,8 +21,10 @@ class PromptState(State):
 
         self.utils.draw_text(prompt, (255, 255, 255), "Arial40", self.promptSurface, (self.size[0] // 2, 100))
 
-        self.yesText, self.yesTextRect = self.utils.draw_text("Yes", (255, 255, 255), "Arial30", self.promptSurface, (self.size[0] // 4, 175))
-        self.noText, self.noTextRect = self.utils.draw_text("No", (255, 255, 255), "Arial30", self.promptSurface, (self.size[0] * 3//4, 175))
+        self.yesText, self.yesTextRect = self.utils.draw_text("Yes", (255, 255, 255), "Arial30", self.promptSurface,
+                                                              (self.size[0] // 4, 175))
+        self.noText, self.noTextRect = self.utils.draw_text("No", (255, 255, 255), "Arial30", self.promptSurface,
+                                                            (self.size[0] * 3 // 4, 175))
         self.result = None
         self.callback = callback
 
@@ -30,7 +33,8 @@ class PromptState(State):
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 and self.game.surfaces.get_interactive_surface(event.pos) == self.promptSurfaceData: # Mouse press
+            if event.button == 1 and self.game.surfaces.get_interactive_surface(
+                event.pos) == self.promptSurfaceData:  # Mouse press
                 pos = (event.pos[0] - self.promptSurfaceData.pos[0], event.pos[1] - self.promptSurfaceData.pos[1])
                 if self.yesTextRect.collidepoint(pos):
                     self.result = True
@@ -39,5 +43,5 @@ class PromptState(State):
                     self.result = False
                     self.game.close_state(self)
 
-                if self.result != None:
+                if self.result is not None:
                     self.callback(self.result)

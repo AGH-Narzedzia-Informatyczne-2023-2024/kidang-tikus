@@ -1,17 +1,19 @@
+import math
+
 import pygame
 
 from objects.weapons.MachineGun import MachineGun
 from objects.weapons.Pistol import Pistol
 from objects.weapons.Shotgun import Shotgun
 from utilits.Math import Math
-import math
 
 PLAYERCOLOR = (255, 0, 0)
 
 
 class Player(pygame.sprite.Sprite):
     projectiles = pygame.sprite.Group()
-    def __init__(self, screen_size, pos):
+
+    def __init__(self, pos):
         super().__init__()
         self.image = pygame.Surface([20, 20])
         self.image.fill(PLAYERCOLOR)
@@ -32,7 +34,8 @@ class Player(pygame.sprite.Sprite):
         self.movementVector = Math.normalize_vector(self.movementVector)
         movementDirection = Math.vector_sign(self.movementVector)
 
-        steps = max(math.fabs(self.movementVector[0]), math.fabs(self.movementVector[1])) * self.movementSpeed * delta_time
+        steps = max(math.fabs(self.movementVector[0]),
+                    math.fabs(self.movementVector[1])) * self.movementSpeed * delta_time
         for _ in range(int(steps)):
             for potentialNewChanges in [[1, 1], [1, 0], [0, 1]]:
                 newPos = [self.pos[0] + movementDirection[0] * potentialNewChanges[0],

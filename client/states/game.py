@@ -2,7 +2,7 @@ import pygame
 
 from objects.Player import Player
 from state import State
-from .level import Level
+from states.level import Level
 
 
 class GameState(State):
@@ -17,8 +17,8 @@ class GameState(State):
         self.levelSize = self.level.get_level_size()
 
         self.players = [
-            Player(self.levelSize, [0,0]),
-            Player(self.levelSize, [self.levelSize[0] - 50, self.levelSize[1] - 50])
+            Player([0, 0]),
+            Player([self.levelSize[0] - 50, self.levelSize[1] - 50])
         ]
         self.player_group = pygame.sprite.Group(*self.players)
 
@@ -33,10 +33,11 @@ class GameState(State):
         mouse = pygame.mouse.get_pressed()
 
         for player in self.players:
-            player.process_input(keys, mouse) # Need to replace mouse with sth else
+            player.process_input(keys, mouse)  # Need to replace mouse with sth else
             player.move(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
 
-        Player.move_projectiles(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
+        Player.move_projectiles(self.levelSize, self.game.clock.get_time() / 1000,
+                                self.level.get_collideable_tiles_rects)
 
         for sprite in self.player_group.sprites():
             sprite.render(self.level.surface)

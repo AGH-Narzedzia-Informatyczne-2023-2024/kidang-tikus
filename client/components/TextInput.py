@@ -3,7 +3,8 @@ import pygame
 UnderscoreAnimFrames = 30
 UnderscoreAnimInterval = UnderscoreAnimFrames * 2
 
-class TextInput():
+
+class TextInput:
     def __init__(self, game, size, maxchars=-1, initialText=""):
         self.text = initialText
         self.active = False
@@ -16,16 +17,17 @@ class TextInput():
         self.ticks = 0
 
     def update(self):
-        self.surface.fill((0,0,0,0))
+        self.surface.fill((0, 0, 0, 0))
 
-        pygame.draw.rect(self.surface, (255,255,255), (0,0,self.surface.get_width(),self.surface.get_height()), 2)
+        pygame.draw.rect(self.surface, (255, 255, 255), (0, 0, self.surface.get_width(), self.surface.get_height()), 2)
 
         self.ticks = (self.ticks + 1) % UnderscoreAnimInterval
         text = self.text
         if self.ticks < UnderscoreAnimFrames and self.active:
             text += "_"
 
-        self.game.utils.draw_text(text, (255,255,255), "Arial30", self.surface, (10,self.size[1]//2), positionProp='midleft')
+        self.game.utils.draw_text(text, (255, 255, 255), "Arial30", self.surface, (10, self.size[1] // 2),
+                                  positionProp='midleft')
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:

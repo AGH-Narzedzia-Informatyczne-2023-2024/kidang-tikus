@@ -1,8 +1,9 @@
 import pygame
 
 from state import State
-from .game import GameState
-from .level import TilesManager
+from states.game import GameState
+from states.level import TilesManager
+
 
 class GameSelectLevelState(State):
     def __init__(self, game):
@@ -18,12 +19,12 @@ class GameSelectLevelState(State):
         i = 0
         for level in self.levelsList:
             text, rect = self.utils.draw_text(level, (255, 255, 255), "Arial30", self.surface,
-                                 (game.GAME_SIZE[0] / 2, 170 + i * 40))
+                                              (game.GAME_SIZE[0] / 2, 170 + i * 40))
             self.levelsRects.append((level, rect))
             i += 1
 
-        self.backText, self.backTextRect = self.utils.draw_text("Back", (255, 255, 255), "Arial30", self.surface, (game.GAME_SIZE[0] / 2, 170 + i * 40))
-
+        self.backText, self.backTextRect = self.utils.draw_text("Back", (255, 255, 255), "Arial30", self.surface,
+                                                                (game.GAME_SIZE[0] / 2, 170 + i * 40))
 
     def cleanup(self):
         self.game.surfaces.remove_surface(self.surfaceData)

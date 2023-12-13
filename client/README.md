@@ -1,4 +1,4 @@
-# Clinet
+# Client
 
 ## Build
 
