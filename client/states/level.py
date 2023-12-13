@@ -1,9 +1,9 @@
-import os
 import re
 
 import pygame
 
 from tiles import TileDict
+from utilits.path import get_save_path
 
 LevelYOffset = 150
 
@@ -63,7 +63,7 @@ class TilesManager:
             return False
 
         try:
-            with open(os.path.join("client/saves", name + ".kiti"), "w") as file:
+            with open(get_save_path(name + ".kiti"), "w") as file:
                 file.write("1\n")  # Version (placeholder)
                 for tile in self.tiles:
                     file.write(str(tile.x) + "," + str(tile.y) + ":" + tile.tileName + ";")
@@ -77,7 +77,7 @@ class TilesManager:
             return False
 
         try:
-            with open(os.path.join("client/saves", name + ".kiti"), "r") as file:
+            with open(get_save_path(name + ".kiti"), "r") as file:
                 (version, tiles) = file.read().split("\n")
                 tiles = tiles.split(";")
                 self.clear()

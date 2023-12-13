@@ -10,3 +10,6 @@ def convert_path(path):
 
 def get_assets_path(path):
     return convert_path(os.path.join("assets", path))
+
+def get_save_path(path):
+    return convert_path(os.path.join("saves", path))
