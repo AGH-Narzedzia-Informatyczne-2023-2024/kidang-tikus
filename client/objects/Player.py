@@ -59,6 +59,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self.pos
         self.movementVector = [0, 0]
 
+    @staticmethod
+    def move_projectiles(screen_size, delta_time, wallsRectGenerator):
         for proj in Player.projectiles:
             proj.move(screen_size, delta_time, wallsRectGenerator)
 

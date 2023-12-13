@@ -16,8 +16,11 @@ class GameState(State):
         self.level.tilesManager.load(levelName)
         self.levelSize = self.level.get_level_size()
 
-        self.player = Player(self.levelSize, [0,0])
-        self.player_group = pygame.sprite.GroupSingle(self.player)
+        self.players = [
+            Player(self.levelSize, [0,0]),
+            Player(self.levelSize, [self.levelSize[0] - 50, self.levelSize[1] - 50])
+        ]
+        self.player_group = pygame.sprite.Group(*self.players)
 
     def update(self):
         self.surface.fill((0, 100, 100))
@@ -29,9 +32,14 @@ class GameState(State):
         keys = pygame.key.get_pressed()
         mouse = pygame.mouse.get_pressed()
 
-        self.player.process_input(keys, mouse) # Need to replace mouse with sth else
-        self.player.move(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
-        self.player_group.sprite.render(self.level.surface)
+        for player in self.players:
+            player.process_input(keys, mouse) # Need to replace mouse with sth else
+            player.move(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
+
+        Player.move_projectiles(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
+
+        for sprite in self.player_group.sprites():
+            sprite.render(self.level.surface)
 
         # Blit the level with the player
         self.surface.blit(self.level.surface, ((self.game.GAME_SIZE[0] - self.levelSize[0]) / 2, 0))
