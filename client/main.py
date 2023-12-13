@@ -1,15 +1,17 @@
 import pygame
+
+from states.menu import MenuState
 from surfaces import Surfaces
 from utils import Utils
-from states.menu import MenuState
+
 
 class Game():
     def __init__(self):
         pygame.init()
         pygame.font.init()
 
-        self.SCREEN_SIZE = (800, 600)
-        self.GAME_SIZE = (800, 600)
+        self.SCREEN_SIZE = (1280, 720)
+        self.GAME_SIZE = (1280, 720)
 
         self.main_canvas = pygame.Surface(self.GAME_SIZE)
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE, pygame.RESIZABLE)
@@ -31,10 +33,10 @@ class Game():
             self.handle_events()
             self.render()
             self.clock.tick(60)
-    
+
     def exit(self):
         pygame.quit()
-    
+
     def handle_events(self):
         clicksInStep = 0
         for event in pygame.event.get():
@@ -47,10 +49,10 @@ class Game():
                     self.running = False
             if event.type == pygame.QUIT:
                 self.running = False
-            
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clicksInStep += 1
-                if clicksInStep > 1: # Discard the clicks if multiple per step
+                if clicksInStep > 1:  # Discard the clicks if multiple per step
                     continue
 
             # Dispatch across states
@@ -65,7 +67,7 @@ class Game():
         self.main_canvas.fill((0, 0, 0))
 
         self.surfaces.render_surfaces()
-        
+
         self.screen.blit(pygame.transform.scale(self.main_canvas, self.SCREEN_SIZE), (0, 0))
         pygame.display.flip()
 
@@ -75,6 +77,7 @@ class Game():
     def close_state(self, state):
         state.cleanup()
         self.states.remove(state)
+
 
 if __name__ == "__main__":
     game = Game()
