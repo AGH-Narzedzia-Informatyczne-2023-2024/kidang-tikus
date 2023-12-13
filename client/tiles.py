@@ -1,6 +1,6 @@
-import os
-
 import pygame
+
+from utilits.path import get_assets_path
 
 
 class Tile:
@@ -8,7 +8,7 @@ class Tile:
         self.surf = pygame.Surface((50, 50), pygame.SRCALPHA, 32)
         self.rect = self.surf.get_rect()
 
-        self.img = pygame.image.load(os.path.join("client/assets", path))
+        self.img = pygame.image.load(get_assets_path(path))
         self.surf.blit(pygame.transform.scale(self.img, (50, 50)), self.rect)
 
         self.speed_multiplier = speed_multiplier
