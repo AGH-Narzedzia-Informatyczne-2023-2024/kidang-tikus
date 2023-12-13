@@ -14,11 +14,10 @@ class MachineGun(Weapon):
         self.weapon_cooldown = 50
         self.spread_arc = 5
 
-    def shoot(self, user, mouse_pos):
+    def shoot(self, user, movementDirection):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_shot > self.weapon_cooldown:
-            direction = (mouse_pos[0] - user.pos[0], mouse_pos[1] - user.pos[1]) \
-                if mouse_pos != user.pos else (1, 1)
+            direction = movementDirection
             self.last_shot = current_time
             theta = math.radians(random.random() * self.spread_arc - self.spread_arc / 2)
             proj_dir = Math.rotate_vector(direction, theta)

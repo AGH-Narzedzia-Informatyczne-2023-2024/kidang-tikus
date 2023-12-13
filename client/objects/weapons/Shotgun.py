@@ -15,11 +15,10 @@ class Shotgun(Weapon):
         self.spread_arc = 30
         self.projectiles_count = 20
 
-    def shoot(self, user, mouse_pos):
+    def shoot(self, user, movementVector):
         currentTime = pygame.time.get_ticks()
         if currentTime - self.last_shot > self.weapon_cooldown:
-            direction = (mouse_pos[0] - user.pos[0], mouse_pos[1] - user.pos[1]) \
-                if mouse_pos != user.pos else (1, 1)
+            direction = movementVector
             self.last_shot = currentTime
             # arcDifference = self.spread_arc / (self.projectiles_count - 1)
             for proj in range(self.projectiles_count):

@@ -12,15 +12,42 @@ PLAYERCOLOR = (255, 0, 0)
 
 class Player(pygame.sprite.Sprite):
     projectiles = pygame.sprite.Group()
+    controls = [
+        {
+           "up" : pygame.K_w,
+           "down" : pygame.K_s,
+           "left" : pygame.K_a,
+           "right" : pygame.K_d,
+           "w1" : pygame.K_1,
+           "w2" : pygame.K_2,
+           "w3" : pygame.K_3,
+           "atk" : pygame.K_SPACE
+        },
+        {
+            "up" : pygame.K_UP,
+           "down" : pygame.K_DOWN,
+           "left" : pygame.K_LEFT,
+           "right" : pygame.K_RIGHT,
+           "w1" : pygame.K_8,
+           "w2" : pygame.K_9,
+           "w3" : pygame.K_0,
+           "atk" : pygame.K_RSHIFT 
+        }
+    ]
+        
 
-    def __init__(self, pos):
+    def __init__(self, pos, id): #id gracza do controlsów
         super().__init__()
         self.image = pygame.Surface([20, 20])
         self.image.fill(PLAYERCOLOR)
         self.rect = self.image.get_rect()
+        
+        
 
         self.weapon_pos = [self.rect.width // 2, self.rect.height // 2]
         self.pos = pos
+        self.id = id
+        self.lastNonZero = [1-self.id*2, 0]
         self.health = 3
         self.alive = True
         self.movementVector = [0, 0]
@@ -33,6 +60,8 @@ class Player(pygame.sprite.Sprite):
     def move(self, screen_size, delta_time, wallsRectGenerator):
         self.movementVector = Math.normalize_vector(self.movementVector)
         movementDirection = Math.vector_sign(self.movementVector)
+        
+        
 
         steps = max(math.fabs(self.movementVector[0]),
                     math.fabs(self.movementVector[1])) * self.movementSpeed * delta_time
@@ -68,25 +97,34 @@ class Player(pygame.sprite.Sprite):
             proj.move(screen_size, delta_time, wallsRectGenerator)
 
     def process_input(self, keys, mouse):
-        if keys[pygame.K_w]:
+        
+        if keys[self.controls[self.id]["up"]]:
             self.movementVector[1] -= 1
-        if keys[pygame.K_a]:
+        if keys[self.controls[self.id]["left"]]:
             self.movementVector[0] -= 1
-        if keys[pygame.K_s]:
+        if keys[self.controls[self.id]["down"]]:
             self.movementVector[1] += 1
-        if keys[pygame.K_d]:
+        if keys[self.controls[self.id]["right"]]:
             self.movementVector[0] += 1
-        if keys[pygame.K_1]:
+        if keys[self.controls[self.id]["w1"]]:
             self.equippedWeapon = self.availableWeapons[0]
-        if keys[pygame.K_2]:
+        if keys[self.controls[self.id]["w2"]]:
             self.equippedWeapon = self.availableWeapons[1]
-        if keys[pygame.K_3]:
+        if keys[self.controls[self.id]["w3"]]:
             self.equippedWeapon = self.availableWeapons[2]
-        if mouse[0]:
-            self.shoot(pygame.mouse.get_pos())
+        if keys[self.controls[self.id]["atk"]]:
+            self.shoot(self.movementVector)
+        
+        if self.movementVector != [0,0]:
+            self.lastNonZero = self.movementVector
 
-    def shoot(self, mouse_pos):
-        self.equippedWeapon.shoot(self, mouse_pos)
+    def shoot(self, movementVector):
+        if movementVector == [0, 0]:
+            dir = self.lastNonZero
+        else:
+            dir = movementVector
+
+        self.equippedWeapon.shoot(self, dir) 
 
     def render(self, surface):
         surface.blit(self.image, self.pos)

@@ -17,8 +17,8 @@ class GameState(State):
         self.levelSize = self.level.get_level_size()
 
         self.players = [
-            Player([0, 0]),
-            Player([self.levelSize[0] - 50, self.levelSize[1] - 50])
+            Player([0, 0], 0),
+            Player([self.levelSize[0] - 50, self.levelSize[1] - 50], 1)
         ]
         self.player_group = pygame.sprite.Group(*self.players)
 
