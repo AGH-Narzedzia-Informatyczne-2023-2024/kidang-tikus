@@ -1,6 +1,8 @@
+import os
 import re
 
 import pygame
+
 from tiles import TileDict
 from utilits.path import get_save_path
 
@@ -20,6 +22,7 @@ class TileData:
     def set_tile(self, tileName):
         self.tileName = tileName
 
+
 class TilesManager:
     def __init__(self):
         self.tiles = []
@@ -30,15 +33,15 @@ class TilesManager:
                 return i
         return None
 
-    def change(self, x, y, tileName = None):
+    def change(self, x, y, tileName=None):
         i = self.find(x, y)
-        if i == None:
-            if tileName != None:
+        if i is None:
+            if tileName is not None:
                 tileData = TileData(x, y)
                 tileData.set_tile(tileName)
                 self.tiles.append(tileData)
         else:
-            if tileName == None:
+            if tileName is None:
                 del self.tiles[i]
             else:
                 self.tiles[i].set_tile(tileName)
@@ -49,7 +52,7 @@ class TilesManager:
 
         # Only allow alphanumeric characters, spaces and underscores
         result = re.search("^[a-zA-Z0-9 _]+$", name)
-        if result == None:
+        if result is None:
             return False
 
         return True
@@ -58,12 +61,12 @@ class TilesManager:
         self.tiles.clear()
 
     def save(self, name):
-        if (not self.validateName(name)):
+        if not self.validateName(name):
             return False
 
         try:
             with open(os.path.join("client/saves", name + Extension), "w") as file:
-                file.write("1\n") # Version (placeholder)
+                file.write("1\n")  # Version (placeholder)
                 for tile in self.tiles:
                     file.write(str(tile.x) + "," + str(tile.y) + ":" + tile.tileName + ";")
                 return True
@@ -72,7 +75,7 @@ class TilesManager:
         return False
 
     def load(self, name):
-        if (not self.validateName(name)):
+        if not self.validateName(name):
             return False
 
         try:
@@ -90,6 +93,7 @@ class TilesManager:
         except IOError as e:
             print("Load failed: ", e)
             return False
+
     def save(self, name):
         if not self.validateName(name):
             return False
@@ -98,7 +102,7 @@ class TilesManager:
             with open(get_save_path(name + ".kiti"), "w") as file:
                 file.write("1\n")  # Version (placeholder)
                 for tile in self.tiles:
-                    file.write(str(tile.x) + "," + str(tile.y) + ":" + tile.tileName + ";")
+                    file.write(str(int(tile.x)) + "," + str(int(tile.y)) + ":" + tile.tileName + ";")
             return True
         except IOError as e:
             print("Save failed: ", e)
@@ -132,7 +136,8 @@ class TilesManager:
                 saves.append(file[:-len(Extension)])
         return saves
 
-class Level():
+
+class Level:
     def __init__(self, game):
         self.surface = pygame.Surface(
             (game.GAME_SIZE[0], game.GAME_SIZE[1] - LevelYOffset),
@@ -154,7 +159,7 @@ class Level():
         return levelSize
 
     def update(self):
-        self.surface.fill((0,0,0,0))
+        self.surface.fill((0, 0, 0, 0))
 
         # Render the tiles
         for tile in self.tilesManager.tiles:
