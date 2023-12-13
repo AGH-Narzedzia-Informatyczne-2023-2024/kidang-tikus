@@ -5,7 +5,7 @@ from surfaces import Surfaces
 from utils import Utils
 
 
-class Game():
+class Game:
     def __init__(self):
         pygame.init()
         pygame.font.init()
