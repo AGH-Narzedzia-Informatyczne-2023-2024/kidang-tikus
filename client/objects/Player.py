@@ -12,15 +12,14 @@ class Player(pygame.sprite.Sprite):
     projectiles = pygame.sprite.Group()
     movement_speed = 100
 
-    def __init__(self, screen_size):
+    def __init__(self, screen_size, pos):
         super().__init__()
         self.image = pygame.Surface([20, 20])
         self.image.fill(PLAYERCOLOR)
-        self.rect = self.image.get_rect(x=screen_size[0] // 2,
-                                        y=screen_size[1] // 2)
+        self.rect = self.image.get_rect()
 
         self.weapon_pos = [self.rect.width // 2, self.rect.height // 2]
-        self.pos = [screen_size[0] // 2, screen_size[1] // 2]
+        self.pos = pos
         self.health = 3
         self.alive = True
         self.movementVector = [0, 0]
@@ -30,7 +29,7 @@ class Player(pygame.sprite.Sprite):
                                  MachineGun()]
         self.equippedWeapon = self.availableWeapons[0]
 
-    def move(self, screen_size, delta_time, walls):
+    def move(self, screen_size, delta_time, wallsRectGenerator):
         self.movementVector = Math.normalize_vector(self.movementVector)
 
         movementDirection = Math.vector_sign(self.movementVector)
@@ -49,8 +48,8 @@ class Player(pygame.sprite.Sprite):
                 newRect = pygame.Rect(newPos[0], newPos[1], self.rect.width, self.rect.height)
 
                 canMove = True
-                for wall in walls:
-                    if wall.rect.colliderect(newRect):
+                for rect in wallsRectGenerator():
+                    if rect.colliderect(newRect):
                         canMove = False
                         continue
 
@@ -64,7 +63,7 @@ class Player(pygame.sprite.Sprite):
         self.movementVector = [0, 0]
 
         for proj in Player.projectiles:
-            proj.move(screen_size, delta_time, walls)
+            proj.move(screen_size, delta_time, wallsRectGenerator)
 
     def process_input(self, keys, mouse):
         if keys[pygame.K_w]:

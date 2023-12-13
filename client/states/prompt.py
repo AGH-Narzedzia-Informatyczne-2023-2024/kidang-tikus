@@ -5,15 +5,15 @@ class PromptState(State):
   def __init__(self, game, prompt, callback=None):
     super().__init__(game)
 
-    self.size = (game.SCREEN_SIZE[0] / 2, game.SCREEN_SIZE[1] / 2)
+    self.size = (game.GAME_SIZE[0] / 2, game.GAME_SIZE[1] / 2)
 
     self.promptSurfaceData = game.surfaces.create_surface(
       size=self.size,
       zindex=10
     )
     self.promptSurfaceData.set_pos((
-      (game.SCREEN_SIZE[0] - self.size[0]) / 2,
-      (game.SCREEN_SIZE[1] - self.size[1]) / 2
+      (game.GAME_SIZE[0] - self.size[0]) / 2,
+      (game.GAME_SIZE[1] - self.size[1]) / 2
     ))
     self.promptSurface = self.promptSurfaceData.surface
 
@@ -26,7 +26,7 @@ class PromptState(State):
 
   def cleanup(self):
     self.game.surfaces.remove_surface(self.promptSurfaceData)
-  
+
   def handle_event(self, event):
     if event.type == pygame.MOUSEBUTTONDOWN:
       if event.button == 1 and self.game.surfaces.get_interactive_surface(event.pos) == self.promptSurfaceData: # Mouse press

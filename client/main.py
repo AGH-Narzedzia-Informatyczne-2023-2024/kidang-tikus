@@ -10,8 +10,8 @@ class Game():
         pygame.init()
         pygame.font.init()
 
-        self.SCREEN_SIZE = (1280, 720)
-        self.GAME_SIZE = (1280, 720)
+        self.SCREEN_SIZE = (1200, 700)
+        self.GAME_SIZE = (1200, 700)
 
         self.main_canvas = pygame.Surface(self.GAME_SIZE)
         self.screen = pygame.display.set_mode(self.SCREEN_SIZE, pygame.RESIZABLE)
@@ -49,6 +49,10 @@ class Game():
                     self.running = False
             if event.type == pygame.QUIT:
                 self.running = False
+
+            if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEBUTTONUP, pygame.MOUSEMOTION]: # Fix mouse position (if the screen is resized)
+                event.pos = (event.pos[0] * self.GAME_SIZE[0] / self.SCREEN_SIZE[0],
+                             event.pos[1] * self.GAME_SIZE[1] / self.SCREEN_SIZE[1])
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clicksInStep += 1
