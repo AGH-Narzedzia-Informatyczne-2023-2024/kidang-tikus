@@ -31,12 +31,13 @@ jobs:
           python-version: "3.10"
           cache: "pip" # caching pip dependencies
 
-      - run: |
-          cd client
-          pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+        working-directory: ./client
 
       - name: Build client
         run: pyinstaller KidangTikus.spec --noconfirm
+        working-directory: ./client
 
       - uses: actions/upload-artifact@v3
         with:
