@@ -5,7 +5,6 @@ from surfaces import Surfaces
 from utilits.path import get_icon_path
 from utils import Utils
 
-
 class Game:
     def __init__(self):
         pygame.init()
@@ -40,8 +39,12 @@ class Game:
     def exit(self):
         pygame.quit()
 
+    def states_copy(self):
+        return self.states.copy()
+
     def handle_events(self):
         clicksInStep = 0
+        states = self.states_copy()
         for event in pygame.event.get():
             # Update the window size
             if event.type == pygame.VIDEORESIZE:
@@ -64,11 +67,11 @@ class Game:
                     continue
 
             # Dispatch across states
-            for state in self.states:
+            for state in states:
                 state.handle_event(event)
 
     def update(self):
-        for state in self.states:
+        for state in self.states_copy():
             state.update()
 
     def render(self):

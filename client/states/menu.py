@@ -31,8 +31,7 @@ class MenuState(State):
                 event.pos) == self.menuSurfaceData:  # Mouse press
                 if self.playTextRect.collidepoint(event.pos):
                     self.game.open_state(GameSelectLevelState(self.game))
-                    self.game.close_state(
-                        self)  # Probably shouldn't be done if we ever want to get back to home menu screen
+                    # self.game.close_state(self)  # Probably shouldn't be done if we ever want to get back to home menu screen
                 if self.editorTextRect.collidepoint(event.pos):
                     self.game.open_state(EditorState(self.game))
                 elif self.exitTextRect.collidepoint(event.pos):

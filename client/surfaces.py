@@ -30,6 +30,7 @@ class Surfaces:
                 self.surfaces.append(surfaceData)
             elif self.surfaces[i].zindex >= zindex:
                 self.surfaces.insert(i, surfaceData)
+                break
 
         return surfaceData
 
