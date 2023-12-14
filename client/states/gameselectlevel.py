@@ -40,3 +40,4 @@ class GameSelectLevelState(State):
                         if data[1].collidepoint(event.pos):
                             self.game.open_state(GameState(self.game, data[0]))
                             self.game.close_state(self)
+                            break

@@ -2,7 +2,7 @@ import pygame
 
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, source, target, speed, lifetime, color):
+    def __init__(self, source, target, speed, lifetime, color, damage, notAffectedPlayers):
         super().__init__()
         self.image = pygame.Surface([8, 8])
         self.image.set_colorkey(pygame.Color('black'))
@@ -16,8 +16,10 @@ class Projectile(pygame.sprite.Sprite):
         self.speed = speed
         self.lifetime = lifetime
         self.createdAt = pygame.time.get_ticks()
+        self.damage = damage
+        self.notAffectedPlayers = notAffectedPlayers
 
-    def move(self, surface_size, delta_time, wallsRectGenerator):
+    def move(self, surface_size, delta_time, wallsRectGenerator, players):
         if pygame.time.get_ticks() > self.createdAt + self.lifetime:
             self.kill()
         self.pos[0] += self.movementVector[0] * self.speed * delta_time
@@ -27,6 +29,11 @@ class Projectile(pygame.sprite.Sprite):
         for rect in wallsRectGenerator():
             if rect.colliderect(self.rect):
                 self.kill()
+
+        for player in players:
+            if not (player.id in self.notAffectedPlayers):
+                if player.rect.colliderect(self.rect) and player.damage(self.damage):
+                    self.kill()
 
         if self.pos[0] > surface_size[0] or self.pos[0] < 0 or self.pos[1] > surface_size[1] or self.pos[1] < 0:
             self.kill()
