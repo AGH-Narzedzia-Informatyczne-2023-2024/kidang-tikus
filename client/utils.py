@@ -7,7 +7,8 @@ class Utils:
 
         self.fonts = {
             "Arial40": pygame.font.SysFont("Arial", 40),
-            "Arial30": pygame.font.SysFont("Arial", 30)
+            "Arial30": pygame.font.SysFont("Arial", 30),
+            "Arial20": pygame.font.SysFont("Arial", 20),
         }
 
     def draw_text(self, text, color, font, surface, position, positionProp="midtop"):

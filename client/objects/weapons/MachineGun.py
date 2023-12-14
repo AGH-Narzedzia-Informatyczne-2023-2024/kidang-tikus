@@ -14,6 +14,7 @@ class MachineGun(Weapon):
         self.weapon_cooldown = 50
         self.spread_arc = 5
         self.damage = 4
+        self.name = "Machine Gun"
 
     def shoot(self, user, movementDirection, playerShooterId):
         current_time = pygame.time.get_ticks()

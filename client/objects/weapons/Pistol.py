@@ -10,6 +10,7 @@ class Pistol(Weapon):
         super().__init__()
         self.weapon_cooldown = 300
         self.damage = 35
+        self.name = "Pistol"
 
     def shoot(self, user, movementVector, playerShooterId):
         currentTime = pygame.time.get_ticks()

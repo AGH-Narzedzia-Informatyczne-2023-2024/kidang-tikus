@@ -16,22 +16,22 @@ class Player(pygame.sprite.Sprite):
     projectiles = pygame.sprite.Group()
     controls = [
         {
-            "up" : pygame.K_w,
-            "down" : pygame.K_s,
-            "left" : pygame.K_a,
-            "right" : pygame.K_d,
-            "switch_left" : pygame.K_q,
-            "switch_right" : pygame.K_e,
-            "atk" : pygame.K_SPACE
+            "up" : [pygame.K_w],
+            "down" : [pygame.K_s],
+            "left" : [pygame.K_a],
+            "right" : [pygame.K_d],
+            "switch_left" : [pygame.K_q],
+            "switch_right" : [pygame.K_e],
+            "atk" : [pygame.K_SPACE]
         },
         {
-            "up" : pygame.K_UP,
-            "down" : pygame.K_DOWN,
-            "left" : pygame.K_LEFT,
-            "right" : pygame.K_RIGHT,
-            "switch_left" : pygame.K_LESS,
-            "switch_right" : pygame.K_GREATER,
-            "atk" : pygame.K_KP_ENTER
+            "up" : [pygame.K_UP],
+            "down" : [pygame.K_DOWN],
+            "left" : [pygame.K_LEFT],
+            "right" : [pygame.K_RIGHT],
+            "switch_left" : [pygame.K_LESS, pygame.K_PERIOD],
+            "switch_right" : [pygame.K_GREATER, pygame.K_COMMA],
+            "atk" : [pygame.K_KP_ENTER, pygame.K_RETURN]
         }
     ]
 
@@ -93,11 +93,18 @@ class Player(pygame.sprite.Sprite):
     def get_health_text(self):
         return f"{int(self.health)}/{int(self.maxhealth)}"
 
+    def get_weapon_name(self):
+        if len(self.availableWeapons) == 0:
+            return "None"
+        return self.availableWeapons[self.equippedWeapon].name
+
     def move(self, screen_size, delta_time, wallsRectGenerator):
+        if not self.is_alive():
+            return
+
         # Regen health
         if REGEN_AFTER != 0 and pygame.time.get_ticks() - self.lastDamaged > REGEN_AFTER:
-            if self.is_alive():
-                self.health = min(self.health + REGEN_RATE * delta_time, self.maxhealth)
+            self.health = min(self.health + REGEN_RATE * delta_time, self.maxhealth)
 
         # Movement
         self.movementVector = Math.normalize_vector(self.movementVector)
@@ -145,23 +152,39 @@ class Player(pygame.sprite.Sprite):
         if event.type == pygame.KEYDOWN:
             # Moved here because the weapon wouldn't switch if key isn't pressed during render step
             if len(self.availableWeapons) != 0:
-                if event.key == self.controls[self.id]["switch_left"] and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                if self.is_key_pressed(event.key, "switch_left") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
                     self.lastWeaponChange = pygame.time.get_ticks()
                     self.equippedWeapon = (self.equippedWeapon - 1) % len(self.availableWeapons)
-                elif event.key == self.controls[self.id]["switch_right"] and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                elif self.is_key_pressed(event.key, "switch_right") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
                     self.lastWeaponChange = pygame.time.get_ticks()
                     self.equippedWeapon = (self.equippedWeapon + 1) % len(self.availableWeapons)
 
+    def is_key_pressed(self, pressedKey, key):
+        if key in self.controls[self.id]:
+            detectedKeys = self.controls[self.id][key]
+            for checkedKey in detectedKeys:
+                if pressedKey == checkedKey:
+                    return True
+        return False
+
+    def is_key_pressed_pyg(self, pressedKeys, key):
+        if key in self.controls[self.id]:
+            detectedKeys = self.controls[self.id][key]
+            for checkedKey in detectedKeys:
+                if pressedKeys[checkedKey]:
+                    return True
+        return False
+
     def process_input(self, keys):
-        if keys[self.controls[self.id]["up"]]:
+        if self.is_key_pressed_pyg(keys, "up"):
             self.movementVector[1] -= 1
-        if keys[self.controls[self.id]["left"]]:
+        if self.is_key_pressed_pyg(keys, "left"):
             self.movementVector[0] -= 1
-        if keys[self.controls[self.id]["down"]]:
+        if self.is_key_pressed_pyg(keys, "down"):
             self.movementVector[1] += 1
-        if keys[self.controls[self.id]["right"]]:
+        if self.is_key_pressed_pyg(keys, "right"):
             self.movementVector[0] += 1
-        if keys[self.controls[self.id]["atk"]]:
+        if self.is_key_pressed_pyg(keys, "atk"):
             self.shoot()
             if self.forcefieldEndOnShoot:
                 self.forcefieldEnd = 0
@@ -171,7 +194,7 @@ class Player(pygame.sprite.Sprite):
             self.lastNonZeroMovement = self.movementVector
 
     def shoot(self):
-        if self.lastNonZeroMovement != [0, 0] and len(self.availableWeapons) != 0:
+        if self.is_alive() and self.lastNonZeroMovement != [0, 0] and len(self.availableWeapons) != 0:
             self.availableWeapons[self.equippedWeapon].shoot(self, self.lastNonZeroMovement, self.id)
 
     def render(self, surface):

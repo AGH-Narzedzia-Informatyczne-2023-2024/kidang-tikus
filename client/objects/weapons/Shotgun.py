@@ -15,6 +15,7 @@ class Shotgun(Weapon):
         self.spread_arc = 30
         self.projectiles_count = 20
         self.damage = 2
+        self.name = "Shotgun"
 
     def shoot(self, user, movementVector, playerShooterId):
         currentTime = pygame.time.get_ticks()
