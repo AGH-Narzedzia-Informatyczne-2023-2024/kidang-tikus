@@ -7,47 +7,46 @@ from objects.weapons.Pistol import Pistol
 from objects.weapons.Shotgun import Shotgun
 from utilits.Math import Math
 
-PLAYERCOLOR = (255, 0, 0)
+PLAYERCOLORS = [
+  (255, 0, 0),
+  (0, 255, 0)
+]
 
+WEAPONCHANGECOOLDOWN = 2000
 
 class Player(pygame.sprite.Sprite):
     projectiles = pygame.sprite.Group()
     controls = [
         {
-           "up" : pygame.K_w,
-           "down" : pygame.K_s,
-           "left" : pygame.K_a,
-           "right" : pygame.K_d,
-           "w1" : pygame.K_1,
-           "w2" : pygame.K_2,
-           "w3" : pygame.K_3,
-           "atk" : pygame.K_SPACE
+            "up" : pygame.K_w,
+            "down" : pygame.K_s,
+            "left" : pygame.K_a,
+            "right" : pygame.K_d,
+            "switch_left" : pygame.K_q,
+            "switch_right" : pygame.K_e,
+            "atk" : pygame.K_SPACE
         },
         {
             "up" : pygame.K_UP,
-           "down" : pygame.K_DOWN,
-           "left" : pygame.K_LEFT,
-           "right" : pygame.K_RIGHT,
-           "w1" : pygame.K_8,
-           "w2" : pygame.K_9,
-           "w3" : pygame.K_0,
-           "atk" : pygame.K_RSHIFT 
+            "down" : pygame.K_DOWN,
+            "left" : pygame.K_LEFT,
+            "right" : pygame.K_RIGHT,
+            "switch_left" : pygame.K_LESS,
+            "switch_right" : pygame.K_GREATER,
+            "atk" : pygame.K_KP_ENTER
         }
     ]
-        
+
 
     def __init__(self, pos, id): #id gracza do controlsów
         super().__init__()
         self.image = pygame.Surface([20, 20])
-        self.image.fill(PLAYERCOLOR)
+        self.image.fill(PLAYERCOLORS[id])
         self.rect = self.image.get_rect()
-        
-        
 
         self.weapon_pos = [self.rect.width // 2, self.rect.height // 2]
         self.pos = pos
         self.id = id
-        self.lastNonZero = [1-self.id*2, 0]
         self.health = 3
         self.alive = True
         self.movementVector = [0, 0]
@@ -55,13 +54,15 @@ class Player(pygame.sprite.Sprite):
         self.availableWeapons = [Pistol(),
                                  Shotgun(),
                                  MachineGun()]
-        self.equippedWeapon = self.availableWeapons[0]
+        self.equippedWeapon = 0
+        self.lastNonZeroMovement = [0, 0]
+        self.lastWeaponChange = pygame.time.get_ticks()
 
     def move(self, screen_size, delta_time, wallsRectGenerator):
         self.movementVector = Math.normalize_vector(self.movementVector)
         movementDirection = Math.vector_sign(self.movementVector)
-        
-        
+
+
 
         steps = max(math.fabs(self.movementVector[0]),
                     math.fabs(self.movementVector[1])) * self.movementSpeed * delta_time
@@ -96,8 +97,17 @@ class Player(pygame.sprite.Sprite):
         for proj in Player.projectiles:
             proj.move(screen_size, delta_time, wallsRectGenerator)
 
-    def process_input(self, keys, mouse):
-        
+    def handle_event(self, event):
+        if event.type == pygame.KEYDOWN:
+            # Moved here because the weapon wouldn't switch if key isn't pressed during render step
+            if event.key == self.controls[self.id]["switch_left"] and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                self.lastWeaponChange = pygame.time.get_ticks()
+                self.equippedWeapon = (self.equippedWeapon - 1) % len(self.availableWeapons)
+            elif event.key == self.controls[self.id]["switch_right"] and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                self.lastWeaponChange = pygame.time.get_ticks()
+                self.equippedWeapon = (self.equippedWeapon + 1) % len(self.availableWeapons)
+
+    def process_input(self, keys):
         if keys[self.controls[self.id]["up"]]:
             self.movementVector[1] -= 1
         if keys[self.controls[self.id]["left"]]:
@@ -106,25 +116,15 @@ class Player(pygame.sprite.Sprite):
             self.movementVector[1] += 1
         if keys[self.controls[self.id]["right"]]:
             self.movementVector[0] += 1
-        if keys[self.controls[self.id]["w1"]]:
-            self.equippedWeapon = self.availableWeapons[0]
-        if keys[self.controls[self.id]["w2"]]:
-            self.equippedWeapon = self.availableWeapons[1]
-        if keys[self.controls[self.id]["w3"]]:
-            self.equippedWeapon = self.availableWeapons[2]
         if keys[self.controls[self.id]["atk"]]:
-            self.shoot(self.movementVector)
-        
+            self.shoot()
+
         if self.movementVector != [0,0]:
-            self.lastNonZero = self.movementVector
+            self.lastNonZeroMovement = self.movementVector
 
-    def shoot(self, movementVector):
-        if movementVector == [0, 0]:
-            dir = self.lastNonZero
-        else:
-            dir = movementVector
-
-        self.equippedWeapon.shoot(self, dir) 
+    def shoot(self):
+        if self.lastNonZeroMovement != [0, 0]:
+            self.availableWeapons[self.equippedWeapon].shoot(self, self.lastNonZeroMovement)
 
     def render(self, surface):
         surface.blit(self.image, self.pos)

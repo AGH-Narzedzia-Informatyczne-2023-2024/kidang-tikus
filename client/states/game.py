@@ -22,6 +22,10 @@ class GameState(State):
         ]
         self.player_group = pygame.sprite.Group(*self.players)
 
+    def handle_event(self, event):
+        for player in self.players:
+            player.handle_event(event)
+
     def update(self):
         self.surface.fill((0, 100, 100))
 
@@ -30,10 +34,9 @@ class GameState(State):
 
         # Players
         keys = pygame.key.get_pressed()
-        mouse = pygame.mouse.get_pressed()
 
         for player in self.players:
-            player.process_input(keys, mouse)  # Need to replace mouse with sth else
+            player.process_input(keys)
             player.move(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
 
         Player.move_projectiles(self.levelSize, self.game.clock.get_time() / 1000,

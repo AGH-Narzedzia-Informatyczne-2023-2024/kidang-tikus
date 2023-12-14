@@ -102,7 +102,7 @@ class TilesManager:
             with open(get_save_path(name + ".kiti"), "w") as file:
                 file.write("1\n")  # Version (placeholder)
                 for tile in self.tiles:
-                    file.write(str(int(tile.x)) + "," + str(int(tile.y)) + ":" + tile.tileName + ";")
+                    file.write(f"{str(int(tile.x))},{str(int(tile.y))}:{tile.tileName};")
             return True
         except IOError as e:
             print("Save failed: ", e)
