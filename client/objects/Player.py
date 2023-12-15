@@ -9,39 +9,38 @@ from utilits.Math import Math
 
 WEAPONCHANGECOOLDOWN = 2000
 STARTHEALTH = 100
-REGEN_AFTER = 7000 # 0 to disable
+REGEN_AFTER = 7000  # 0 to disable
 REGEN_RATE = 5
+
 
 class Player(pygame.sprite.Sprite):
     projectiles = pygame.sprite.Group()
     controls = [
         {
-            "up" : [pygame.K_w],
-            "down" : [pygame.K_s],
-            "left" : [pygame.K_a],
-            "right" : [pygame.K_d],
-            "switch_left" : [pygame.K_q],
-            "switch_right" : [pygame.K_e],
-            "atk" : [pygame.K_SPACE]
+            "up": [pygame.K_w],
+            "down": [pygame.K_s],
+            "left": [pygame.K_a],
+            "right": [pygame.K_d],
+            "switch_left": [pygame.K_q],
+            "switch_right": [pygame.K_e],
+            "atk": [pygame.K_SPACE]
         },
         {
-            "up" : [pygame.K_UP],
-            "down" : [pygame.K_DOWN],
-            "left" : [pygame.K_LEFT],
-            "right" : [pygame.K_RIGHT],
-            "switch_left" : [pygame.K_LESS, pygame.K_PERIOD],
-            "switch_right" : [pygame.K_GREATER, pygame.K_COMMA],
-            "atk" : [pygame.K_KP_ENTER, pygame.K_RETURN]
+            "up": [pygame.K_UP],
+            "down": [pygame.K_DOWN],
+            "left": [pygame.K_LEFT],
+            "right": [pygame.K_RIGHT],
+            "switch_left": [pygame.K_LESS, pygame.K_PERIOD],
+            "switch_right": [pygame.K_GREATER, pygame.K_COMMA],
+            "atk": [pygame.K_KP_ENTER, pygame.K_RETURN]
         }
     ]
 
-
-    def __init__(self, pos, id, color): #id gracza do controlsów
+    def __init__(self, pos, id, color):  # id gracza do controlsów
         super().__init__()
-        self.image = pygame.Surface([20, 20])
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-
+        self.equippedWeapon = 0
+        self.color = color
+        self.create_surf()
         self.weapon_pos = [self.rect.width // 2, self.rect.height // 2]
         self.pos = pos
         self.id = id
@@ -52,17 +51,25 @@ class Player(pygame.sprite.Sprite):
         self.availableWeapons = [Pistol(),
                                  Shotgun(),
                                  MachineGun()]
-        self.equippedWeapon = 0
+        self.select_weapon(0)
         self.lastNonZeroMovement = [0, 0]
         self.lastWeaponChange = 0
         self.forcefieldEnd = 0
         self.forcefieldEndOnShoot = False
         self.lastDamaged = 0
 
+    def create_surf(self):
+        self.surf = pygame.Surface((40, 40), pygame.SRCALPHA, 32)
+        self.rect = self.surf.get_rect()
+        self.surf = pygame.Surface((80, 80), pygame.SRCALPHA, 32)
+        # pygame.draw.circle(self.surf, self.color,
+        #                    (self.rect.width // 2, self.rect.height // 2),
+        #                    self.rect.width // 2)
+
     def respawn(self, pos):
         self.pos = pos
         self.health = self.maxhealth
-        self.equippedWeapon = 0
+        self.select_weapon(0)
         self.movementVector = [0, 0]
         self.lastNonZeroMovement = [0, 0]
         self.lastWeaponChange = 0
@@ -70,7 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.forcefieldEndOnShoot = False
         self.lastDamaged = 0
 
-    def set_forcefield(self, time, endOnShoot = False):
+    def set_forcefield(self, time, endOnShoot=False):
         self.forcefieldEnd = pygame.time.get_ticks() + time
         self.forcefieldEndOnShoot = endOnShoot
 
@@ -152,12 +159,20 @@ class Player(pygame.sprite.Sprite):
         if event.type == pygame.KEYDOWN:
             # Moved here because the weapon wouldn't switch if key isn't pressed during render step
             if len(self.availableWeapons) != 0:
-                if self.is_key_pressed(event.key, "switch_left") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                if self.is_key_pressed(event.key,
+                                       "switch_left") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
                     self.lastWeaponChange = pygame.time.get_ticks()
-                    self.equippedWeapon = (self.equippedWeapon - 1) % len(self.availableWeapons)
-                elif self.is_key_pressed(event.key, "switch_right") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                    self.select_weapon((self.equippedWeapon - 1) % len(self.availableWeapons))
+                elif self.is_key_pressed(event.key,
+                                         "switch_right") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
                     self.lastWeaponChange = pygame.time.get_ticks()
-                    self.equippedWeapon = (self.equippedWeapon + 1) % len(self.availableWeapons)
+                    self.select_weapon((self.equippedWeapon + 1) % len(self.availableWeapons))
+
+    def select_weapon(self, index):
+        self.equippedWeapon = index
+        self.create_surf()
+        self.surf.blit(pygame.transform.scale(self.availableWeapons[self.equippedWeapon].img, (80, 80)), self.rect)
+        self.surf.fill(self.color, special_flags=pygame.BLEND_ADD)
 
     def is_key_pressed(self, pressedKey, key):
         if key in self.controls[self.id]:
@@ -190,7 +205,7 @@ class Player(pygame.sprite.Sprite):
                 self.forcefieldEnd = 0
                 self.forcefieldEndOnShoot = False
 
-        if self.movementVector != [0,0]:
+        if self.movementVector != [0, 0]:
             self.lastNonZeroMovement = self.movementVector
 
     def shoot(self):
@@ -199,8 +214,11 @@ class Player(pygame.sprite.Sprite):
 
     def render(self, surface):
         if self.is_forcefield():
-            pygame.draw.circle(surface, (255, 255, 255), [self.pos[0] + 10, self.pos[1] + 10], 20, 2)
-        surface.blit(self.image, self.pos)
+            pygame.draw.circle(surface, (255, 255, 255), [self.pos[0] + 20, self.pos[1] + 20], 30, 2)
+        angle = pygame.Vector2(self.lastNonZeroMovement[0], self.lastNonZeroMovement[1]).angle_to(pygame.Vector2(1, 0))
+        rotated_img = pygame.transform.rotate(self.surf, angle)
+        rot_rect = rotated_img.get_rect(center=(self.pos[0] + 20, self.pos[1] + 20))
+        surface.blit(rotated_img, rot_rect)
 
     def get_weapon_pos(self):
         return Math.add_vectors(self.pos, self.weapon_pos)

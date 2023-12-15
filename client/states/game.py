@@ -9,6 +9,7 @@ RESPAWN_DELAY = 1500
 FORCEFIELD_TIME = 5000
 FORCEFIELD_END_ON_SHOOT = True
 
+
 class GameState(State):
     def __init__(self, game, levelName):
         super().__init__(game)
@@ -25,8 +26,8 @@ class GameState(State):
             [self.levelSize[0] - 50, self.levelSize[1] - 50]
         ]
         self.playerColors = [
-            (255, 0, 0),
-            (0, 255, 0)
+            (100, 0, 0),
+            (0, 100, 0)
         ]
 
         self.players = []
@@ -34,7 +35,7 @@ class GameState(State):
             self.players.append(Player(self.initialPlayerPositions[i], i, self.playerColors[i]))
 
         self.player_group = pygame.sprite.Group(*self.players)
-        for player in self.players: # Add forcefield
+        for player in self.players:  # Add forcefield
             player.set_forcefield(FORCEFIELD_TIME, endOnShoot=FORCEFIELD_END_ON_SHOOT)
 
         self.controlsOffset = self.game.GAME_SIZE[1] - LevelYOffset
@@ -76,7 +77,7 @@ class GameState(State):
             player.process_input(keys)
             player.move(self.levelSize, self.game.clock.get_time() / 1000, self.level.get_collideable_tiles_rects)
 
-            if not player.is_alive(): # Handling points and respawning
+            if not player.is_alive():  # Handling points and respawning
                 scoringPlayer = 1 - player.id
                 if self.canScore[scoringPlayer]:
                     self.canScore[scoringPlayer] = False
@@ -97,17 +98,26 @@ class GameState(State):
                 player.render(self.level.surface)
 
         # Text data
-        self.utils.draw_text(f"{self.scores[0]}:{self.scores[1]}", (255, 255, 255), "Arial40", self.surface, (self.game.GAME_SIZE[0] / 2, self.controlsOffset + 5), positionProp='midtop')
+        self.utils.draw_text(f"{self.scores[0]}:{self.scores[1]}", (255, 255, 255), "Arial40", self.surface,
+                             (self.game.GAME_SIZE[0] / 2, self.controlsOffset + 5), positionProp='midtop')
 
-        self.utils.draw_text("Player 1 (RED)", (255, 255, 255), "Arial30", self.surface, (400, self.controlsOffset + 20), positionProp='midtop')
-        self.utils.draw_text(f"Health: {self.players[0].get_health_text()}", (255, 255, 255), "Arial20", self.surface, (400, self.controlsOffset + 60), positionProp='midtop')
-        self.utils.draw_text(f"Weapon: {self.players[0].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface, (400, self.controlsOffset + 85), positionProp='midtop')
-        self.utils.draw_text("Controls: WSAD QE Space", (255, 255, 255), "Arial20", self.surface, (400, self.controlsOffset + 110), positionProp='midtop')
+        self.utils.draw_text("Player 1 (RED)", (255, 255, 255), "Arial30", self.surface,
+                             (400, self.controlsOffset + 20), positionProp='midtop')
+        self.utils.draw_text(f"Health: {self.players[0].get_health_text()}", (255, 255, 255), "Arial20", self.surface,
+                             (400, self.controlsOffset + 60), positionProp='midtop')
+        self.utils.draw_text(f"Weapon: {self.players[0].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface,
+                             (400, self.controlsOffset + 85), positionProp='midtop')
+        self.utils.draw_text("Controls: WSAD QE Space", (255, 255, 255), "Arial20", self.surface,
+                             (400, self.controlsOffset + 110), positionProp='midtop')
 
-        self.utils.draw_text("Player 2 (GREEN)", (255, 255, 255), "Arial30", self.surface, (800, self.controlsOffset + 20), positionProp='midtop')
-        self.utils.draw_text(f"Health: {self.players[1].get_health_text()}", (255, 255, 255), "Arial20", self.surface, (800, self.controlsOffset + 60), positionProp='midtop')
-        self.utils.draw_text(f"Weapon: {self.players[1].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface, (800, self.controlsOffset + 85), positionProp='midtop')
-        self.utils.draw_text("Controls: Arrow <> Enter", (255, 255, 255), "Arial20", self.surface, (800, self.controlsOffset + 110), positionProp='midtop')
+        self.utils.draw_text("Player 2 (GREEN)", (255, 255, 255), "Arial30", self.surface,
+                             (800, self.controlsOffset + 20), positionProp='midtop')
+        self.utils.draw_text(f"Health: {self.players[1].get_health_text()}", (255, 255, 255), "Arial20", self.surface,
+                             (800, self.controlsOffset + 60), positionProp='midtop')
+        self.utils.draw_text(f"Weapon: {self.players[1].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface,
+                             (800, self.controlsOffset + 85), positionProp='midtop')
+        self.utils.draw_text("Controls: Arrow <> Enter", (255, 255, 255), "Arial20", self.surface,
+                             (800, self.controlsOffset + 110), positionProp='midtop')
 
         self.exitText, self.exitTextRect = self.utils.draw_text("Exit", (255, 255, 255), "Arial30", self.surface,
                                                                 (25, self.game.GAME_SIZE[1] - 25),

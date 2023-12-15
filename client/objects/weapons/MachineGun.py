@@ -6,6 +6,7 @@ import pygame
 from objects.Projectile import Projectile
 from objects.Weapon import Weapon
 from utilits.Math import Math
+from utilits.path import get_assets_path
 
 
 class MachineGun(Weapon):
@@ -15,6 +16,7 @@ class MachineGun(Weapon):
         self.spread_arc = 5
         self.damage = 4
         self.name = "Machine Gun"
+        self.img = pygame.image.load(get_assets_path("rifle.png"))
 
     def shoot(self, user, movementDirection, playerShooterId):
         current_time = pygame.time.get_ticks()
@@ -24,4 +26,5 @@ class MachineGun(Weapon):
             theta = math.radians(random.random() * self.spread_arc - self.spread_arc / 2)
             proj_dir = Math.rotate_vector(direction, theta)
             user.projectiles.add(
-                Projectile(user.get_weapon_pos(), Math.normalize_vector(proj_dir), 600, 2000, (194, 54, 16), self.damage, [playerShooterId]))
+                Projectile(user.get_weapon_pos(), Math.normalize_vector(proj_dir), 600, 2000, (194, 54, 16),
+                           self.damage, [playerShooterId]))

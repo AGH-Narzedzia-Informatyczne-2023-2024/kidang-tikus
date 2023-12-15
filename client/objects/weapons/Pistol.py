@@ -3,6 +3,7 @@ import pygame
 from objects.Projectile import Projectile
 from objects.Weapon import Weapon
 from utilits.Math import Math
+from utilits.path import get_assets_path
 
 
 class Pistol(Weapon):
@@ -11,6 +12,7 @@ class Pistol(Weapon):
         self.weapon_cooldown = 300
         self.damage = 35
         self.name = "Pistol"
+        self.img = pygame.image.load(get_assets_path("handgun.png"))
 
     def shoot(self, user, movementVector, playerShooterId):
         currentTime = pygame.time.get_ticks()
@@ -18,4 +20,5 @@ class Pistol(Weapon):
             direction = movementVector
             self.last_shot = currentTime
             user.projectiles.add(
-                Projectile(user.get_weapon_pos(), Math.normalize_vector(direction), 500, 1500, (0, 0, 255), self.damage, [playerShooterId]))
+                Projectile(user.get_weapon_pos(), Math.normalize_vector(direction), 500, 1500, (0, 0, 255), self.damage,
+                           [playerShooterId]))

@@ -6,6 +6,7 @@ import pygame
 from objects.Projectile import Projectile
 from objects.Weapon import Weapon
 from utilits.Math import Math
+from utilits.path import get_assets_path
 
 
 class Shotgun(Weapon):
@@ -16,6 +17,7 @@ class Shotgun(Weapon):
         self.projectiles_count = 20
         self.damage = 2
         self.name = "Shotgun"
+        self.img = pygame.image.load(get_assets_path("shotgun.png"))
 
     def shoot(self, user, movementVector, playerShooterId):
         currentTime = pygame.time.get_ticks()
