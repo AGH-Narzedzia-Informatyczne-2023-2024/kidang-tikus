@@ -4,7 +4,7 @@ import re
 import pygame
 
 from tiles import TileDict
-from utilits.path import get_save_path
+from utils.path import get_save_path
 
 LevelYOffset = 150
 Extension = ".kiti"

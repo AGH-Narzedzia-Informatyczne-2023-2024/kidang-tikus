@@ -2,8 +2,8 @@ import pygame
 
 from states.menu import MenuState
 from surfaces import Surfaces
-from utilits.path import get_icon_path
-from utils import Utils
+from utils.path import get_icon_path
+from utils.fonts import Fonts
 
 class Game:
     def __init__(self):
@@ -23,7 +23,7 @@ class Game:
         self.running = True
 
         self.surfaces = Surfaces(self)
-        self.utils = Utils(self)
+        self.fonts = Fonts(self)
 
         self.states = []
         initialMenuState = MenuState(self)

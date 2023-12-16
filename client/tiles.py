@@ -1,5 +1,5 @@
 import pygame
-from utilits.path import get_assets_path
+from utils.path import get_assets_path
 
 
 class Tile:

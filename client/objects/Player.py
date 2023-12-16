@@ -5,7 +5,7 @@ import pygame
 from objects.weapons.MachineGun import MachineGun
 from objects.weapons.Pistol import Pistol
 from objects.weapons.Shotgun import Shotgun
-from utilits.Math import Math
+from utils.Math import Math
 
 WEAPONCHANGECOOLDOWN = 2000
 STARTHEALTH = 100

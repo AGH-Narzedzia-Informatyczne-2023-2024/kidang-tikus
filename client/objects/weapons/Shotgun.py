@@ -5,8 +5,8 @@ import pygame
 
 from objects.Projectile import Projectile
 from objects.Weapon import Weapon
-from utilits.Math import Math
-from utilits.path import get_assets_path
+from utils.Math import Math
+from utils.path import get_assets_path
 
 
 class Shotgun(Weapon):

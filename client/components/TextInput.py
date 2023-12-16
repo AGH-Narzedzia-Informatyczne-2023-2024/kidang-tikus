@@ -26,7 +26,7 @@ class TextInput:
         if self.ticks < UnderscoreAnimFrames and self.active:
             text += "_"
 
-        self.game.utils.draw_text(text, (255, 255, 255), "Arial30", self.surface, (10, self.size[1] // 2),
+        self.game.fonts.draw_text(text, (255, 255, 255), "Arial30", self.surface, (10, self.size[1] // 2),
                                   positionProp='midleft')
 
     def handle_event(self, event):

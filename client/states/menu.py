@@ -12,14 +12,14 @@ class MenuState(State):
         self.menuSurfaceData = game.surfaces.create_surface()
         self.menuSurface = self.menuSurfaceData.surface
 
-        self.utils.draw_text("Kidang Tikus", (255, 255, 255), "Arial40", self.menuSurface,
+        self.fonts.draw_text("Kidang Tikus", (255, 255, 255), "Arial40", self.menuSurface,
                              (game.GAME_SIZE[0] / 2, 100))
-        self.playText, self.playTextRect = self.utils.draw_text("Play", (255, 255, 255), "Arial30", self.menuSurface,
+        self.playText, self.playTextRect = self.fonts.draw_text("Play", (255, 255, 255), "Arial30", self.menuSurface,
                                                                 (game.GAME_SIZE[0] / 2, 170))
-        self.editorText, self.editorTextRect = self.utils.draw_text("Editor", (255, 255, 255), "Arial30",
+        self.editorText, self.editorTextRect = self.fonts.draw_text("Editor", (255, 255, 255), "Arial30",
                                                                     self.menuSurface, (game.GAME_SIZE[0] / 2, 210))
-        # self.utils.draw_text("Options", (255, 255, 255), "Arial30", self.menuSurface, (game.GAME_SIZE[0] / 2, 200))
-        self.exitText, self.exitTextRect = self.utils.draw_text("Exit", (255, 255, 255), "Arial30", self.menuSurface,
+        # self.fonts.draw_text("Options", (255, 255, 255), "Arial30", self.menuSurface, (game.GAME_SIZE[0] / 2, 200))
+        self.exitText, self.exitTextRect = self.fonts.draw_text("Exit", (255, 255, 255), "Arial30", self.menuSurface,
                                                                 (game.GAME_SIZE[0] / 2, 250))
 
     def cleanup(self):

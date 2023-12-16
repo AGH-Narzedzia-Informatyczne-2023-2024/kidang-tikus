@@ -1,7 +1,7 @@
 class State:
     def __init__(self, game):
         self.game = game
-        self.utils = game.utils
+        self.fonts = game.fonts
 
     def cleanup(self):
         pass

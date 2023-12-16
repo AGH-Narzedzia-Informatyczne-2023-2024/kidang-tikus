@@ -11,18 +11,18 @@ class GameSelectLevelState(State):
         self.surfaceData = game.surfaces.create_surface(zindex=3)
         self.surface = self.surfaceData.surface
 
-        self.utils.draw_text("Pick the level", (255, 255, 255), "Arial40", self.surface,
+        self.fonts.draw_text("Pick the level", (255, 255, 255), "Arial40", self.surface,
                              (game.GAME_SIZE[0] / 2, 100))
         self.levelsList = TilesManager.getSaveList()
         self.levelsRects = []
         i = 0
         for level in self.levelsList:
-            text, rect = self.utils.draw_text(level, (255, 255, 255), "Arial30", self.surface,
+            text, rect = self.fonts.draw_text(level, (255, 255, 255), "Arial30", self.surface,
                                               (game.GAME_SIZE[0] / 2, 170 + i * 40))
             self.levelsRects.append((level, rect))
             i += 1
 
-        self.backText, self.backTextRect = self.utils.draw_text("Back", (255, 255, 255), "Arial30", self.surface,
+        self.backText, self.backTextRect = self.fonts.draw_text("Back", (255, 255, 255), "Arial30", self.surface,
                                                                 (game.GAME_SIZE[0] / 2, 170 + i * 40))
 
     def cleanup(self):

@@ -19,11 +19,11 @@ class PromptState(State):
         ))
         self.promptSurface = self.promptSurfaceData.surface
 
-        self.utils.draw_text(prompt, (255, 255, 255), "Arial40", self.promptSurface, (self.size[0] // 2, 100))
+        self.fonts.draw_text(prompt, (255, 255, 255), "Arial40", self.promptSurface, (self.size[0] // 2, 100))
 
-        self.yesText, self.yesTextRect = self.utils.draw_text("Yes", (255, 255, 255), "Arial30", self.promptSurface,
+        self.yesText, self.yesTextRect = self.fonts.draw_text("Yes", (255, 255, 255), "Arial30", self.promptSurface,
                                                               (self.size[0] // 4, 175))
-        self.noText, self.noTextRect = self.utils.draw_text("No", (255, 255, 255), "Arial30", self.promptSurface,
+        self.noText, self.noTextRect = self.fonts.draw_text("No", (255, 255, 255), "Arial30", self.promptSurface,
                                                             (self.size[0] * 3 // 4, 175))
         self.result = None
         self.callback = callback

@@ -98,28 +98,28 @@ class GameState(State):
                 player.render(self.level.surface)
 
         # Text data
-        self.utils.draw_text(f"{self.scores[0]}:{self.scores[1]}", (255, 255, 255), "Arial40", self.surface,
+        self.fonts.draw_text(f"{self.scores[0]}:{self.scores[1]}", (255, 255, 255), "Arial40", self.surface,
                              (self.game.GAME_SIZE[0] / 2, self.controlsOffset + 5), positionProp='midtop')
 
-        self.utils.draw_text("Player 1 (RED)", (255, 255, 255), "Arial30", self.surface,
+        self.fonts.draw_text("Player 1 (RED)", (255, 255, 255), "Arial30", self.surface,
                              (400, self.controlsOffset + 20), positionProp='midtop')
-        self.utils.draw_text(f"Health: {self.players[0].get_health_text()}", (255, 255, 255), "Arial20", self.surface,
+        self.fonts.draw_text(f"Health: {self.players[0].get_health_text()}", (255, 255, 255), "Arial20", self.surface,
                              (400, self.controlsOffset + 60), positionProp='midtop')
-        self.utils.draw_text(f"Weapon: {self.players[0].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface,
+        self.fonts.draw_text(f"Weapon: {self.players[0].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface,
                              (400, self.controlsOffset + 85), positionProp='midtop')
-        self.utils.draw_text("Controls: WSAD QE Space", (255, 255, 255), "Arial20", self.surface,
+        self.fonts.draw_text("Controls: WSAD QE Space", (255, 255, 255), "Arial20", self.surface,
                              (400, self.controlsOffset + 110), positionProp='midtop')
 
-        self.utils.draw_text("Player 2 (GREEN)", (255, 255, 255), "Arial30", self.surface,
+        self.fonts.draw_text("Player 2 (GREEN)", (255, 255, 255), "Arial30", self.surface,
                              (800, self.controlsOffset + 20), positionProp='midtop')
-        self.utils.draw_text(f"Health: {self.players[1].get_health_text()}", (255, 255, 255), "Arial20", self.surface,
+        self.fonts.draw_text(f"Health: {self.players[1].get_health_text()}", (255, 255, 255), "Arial20", self.surface,
                              (800, self.controlsOffset + 60), positionProp='midtop')
-        self.utils.draw_text(f"Weapon: {self.players[1].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface,
+        self.fonts.draw_text(f"Weapon: {self.players[1].get_weapon_name()}", (255, 255, 255), "Arial20", self.surface,
                              (800, self.controlsOffset + 85), positionProp='midtop')
-        self.utils.draw_text("Controls: Arrow <> Enter", (255, 255, 255), "Arial20", self.surface,
+        self.fonts.draw_text("Controls: Arrow <> Enter", (255, 255, 255), "Arial20", self.surface,
                              (800, self.controlsOffset + 110), positionProp='midtop')
 
-        self.exitText, self.exitTextRect = self.utils.draw_text("Exit", (255, 255, 255), "Arial30", self.surface,
+        self.exitText, self.exitTextRect = self.fonts.draw_text("Exit", (255, 255, 255), "Arial30", self.surface,
                                                                 (25, self.game.GAME_SIZE[1] - 25),
                                                                 positionProp='bottomleft')
         # Blit the level with the player
