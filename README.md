@@ -10,15 +10,15 @@
 
 - [x] Project setup
 - [x] Git setup
-- [ ] Game basics
+- [x] Game basics
 - [ ] Local multiplayer (LAN)
-- [ ] Game loop
+- [x] Game loop
 - [ ] Online multiplayer
 - [ ] SFX / GFX
 - [ ] Destroyable environment
 - [ ] Power ups
-- [ ] Map editor
-- [ ] CI/CD
+- [x] Map editor
+- [x] CI/CD
 - [ ] [Itchio](https://itch.io) release
 
 [^1]: See [this document](https://docs.google.com/spreadsheets/d/1-ErHJ3pJcBHkAS5O7UOqdDYWsXO2FvVZF2UIVxLdnuw/edit?usp=sharing) for details.
@@ -29,46 +29,7 @@ For detiled information see [this](https://docs.google.com/document/d/1E0U_dm93f
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-<details><summary>PROJECT WORK IN PROGRESS - template below</summary>
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Visual Studio Code
-Github Desktop
-```
-
-### Installing
-
-#### 1. Create python venv:
-
-```
-python3 -m venv env
-```
-
-#### 2. And activate it.
-
--   Windows:
-
-```
-env/Scripts/activate
-```
-
--   Linux:
-
-```
-source env/bin/activate
-```
-
-#### 3. Install dependencies:
-
-```
-pip install -r requirements.txt
-```
-</details>
+Please see [Installation instructions](https://github.com/AGH-Narzedzia-Informatyczne-2023-2024/kidang-tikus/wiki/Installation).
 
 ## Running the tests
 
@@ -82,6 +43,7 @@ We have a Quality Assurance team which checks mainly the following things:
 ## Development
 
 Please use the [Google's Python styleguide](https://google.github.io/styleguide/pyguide.html).
+You may read more about development [here](https://github.com/AGH-Narzedzia-Informatyczne-2023-2024/kidang-tikus/wiki/development).
 
 ## Deployment
 
@@ -112,7 +74,6 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 This project is licensed under the WTFPL License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
+## Acknowledgments / Credits
 
--   Hat tip to anyone whose code was used
--   Inspiration
+Please see [this page](https://github.com/AGH-Narzedzia-Informatyczne-2023-2024/kidang-tikus/wiki/Credits).
