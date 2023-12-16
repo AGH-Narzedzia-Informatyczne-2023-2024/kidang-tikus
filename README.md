@@ -25,7 +25,7 @@
 
 ## Project description
 
-For detailed information see [this](https://docs.google.com/document/d/1E0U_dm93fonUSwPmSpySaFJsoYhLiKY9cUN1aybzOAw/edit)
+For detailed information see [the Project overview](https://github.com/AGH-Narzedzia-Informatyczne-2023-2024/kidang-tikus/wiki/Project-overview) or [this document](https://docs.google.com/document/d/1E0U_dm93fonUSwPmSpySaFJsoYhLiKY9cUN1aybzOAw/edit).
 
 ## Getting Started
 
