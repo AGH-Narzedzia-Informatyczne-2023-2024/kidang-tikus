@@ -41,7 +41,7 @@ jobs:
         run: pyinstaller KidangTikus.spec --noconfirm
         working-directory: ./client
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: build-${{ matrix.os }}
           path: client/dist/
@@ -54,7 +54,7 @@ jobs:
         with:
           path: artifacts
 
-      - name: 'Tar files'
+      - name: Pack files
         run: |
           zip -r windows.zip artifacts/build-windows-latest
           tar -cvf ubuntu.tar artifacts/build-ubuntu-latest
