@@ -1,1 +1,3 @@
 - 2D tile textures - https://piiixl.itch.io/textures
+- 2D player textures - https://opengameart.org/content/animated-top-down-survivor-player
+- Player character logics - https://github.com/Puzovoz/top-down-shooter
