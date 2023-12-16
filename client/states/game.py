@@ -1,8 +1,8 @@
 import pygame
 
+from components.level import Level, LevelYOffset
 from objects.Player import Player
 from state import State
-from states.level import Level, LevelYOffset
 from states.prompt import PromptState
 
 RESPAWN_DELAY = 1500

@@ -1,8 +1,8 @@
 import pygame
 
 from components.TextInput import TextInput
+from components.level import Level, LevelYOffset
 from state import State
-from states.level import Level, LevelYOffset
 from states.prompt import PromptState
 from tiles import TileDict, TileList
 

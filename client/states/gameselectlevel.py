@@ -1,9 +1,8 @@
 import pygame
 
 from state import State
+from components.level import TilesManager
 from states.game import GameState
-from states.level import TilesManager
-
 
 class GameSelectLevelState(State):
     def __init__(self, game):
