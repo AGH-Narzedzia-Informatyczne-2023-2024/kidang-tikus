@@ -103,7 +103,12 @@ class Player(pygame.sprite.Sprite):
     def get_weapon_name(self):
         if len(self.availableWeapons) == 0:
             return "None"
-        return self.availableWeapons[self.equippedWeapon].name
+
+        weaponName = self.availableWeapons[self.equippedWeapon].name
+        weaponChangeCooldown = self.get_remaining_change_cooldown()
+        if weaponChangeCooldown != 0:
+            weaponName += f" ({int((1 - weaponChangeCooldown / WEAPONCHANGECOOLDOWN) * 100)}%)"
+        return weaponName
 
     def move(self, screen_size, delta_time, wallsRectGenerator):
         if not self.is_alive():
@@ -155,23 +160,27 @@ class Player(pygame.sprite.Sprite):
         for proj in Player.projectiles:
             proj.render(surface)
 
+    def get_remaining_change_cooldown(self):
+        return max(WEAPONCHANGECOOLDOWN - (pygame.time.get_ticks() - self.lastWeaponChange), 0)
+
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             # Moved here because the weapon wouldn't switch if key isn't pressed during render step
             if len(self.availableWeapons) != 0:
                 if self.is_key_pressed(event.key,
-                                       "switch_left") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                                       "switch_left") and self.get_remaining_change_cooldown() == 0:
                     self.lastWeaponChange = pygame.time.get_ticks()
                     self.select_weapon((self.equippedWeapon - 1) % len(self.availableWeapons))
                 elif self.is_key_pressed(event.key,
-                                         "switch_right") and pygame.time.get_ticks() - self.lastWeaponChange > WEAPONCHANGECOOLDOWN:
+                                         "switch_right") and self.get_remaining_change_cooldown() == 0:
                     self.lastWeaponChange = pygame.time.get_ticks()
                     self.select_weapon((self.equippedWeapon + 1) % len(self.availableWeapons))
 
     def select_weapon(self, index):
         self.equippedWeapon = index
         self.create_surf()
-        self.surf.blit(pygame.transform.scale(self.availableWeapons[self.equippedWeapon].img, (80, 80)), self.rect)
+        if len(self.availableWeapons) != 0 and self.availableWeapons[self.equippedWeapon].img is not None:
+            self.surf.blit(pygame.transform.scale(self.availableWeapons[self.equippedWeapon].img, (80, 80)), self.rect)
         self.surf.fill(self.color, special_flags=pygame.BLEND_ADD)
 
     def is_key_pressed(self, pressedKey, key):
