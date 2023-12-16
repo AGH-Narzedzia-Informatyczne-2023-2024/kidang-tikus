@@ -51,8 +51,8 @@ class Game:
                 self.SCREEN_SIZE = event.size
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    self.running = False
+                pass
+
             if event.type == pygame.QUIT:
                 self.running = False
 
